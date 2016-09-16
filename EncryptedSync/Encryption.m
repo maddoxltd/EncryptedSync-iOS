@@ -52,7 +52,7 @@
 			NSArray *countArray = [countObject toArray];
 			NSMutableArray *array = [NSMutableArray array];
 			for (__unused NSNumber *number in countArray){
-				[array addObject:@(rand())];
+				[array addObject:@(arc4random())];
 			}
 			return [NSArray arrayWithArray:array];
 			
