@@ -25,90 +25,111 @@
 
 @implementation Encryption
 
-- (instancetype)initWithUserID:(NSString *)userID passphrase:(NSString *)passphrase error:(NSError **)errorRef
+- (instancetype)initWithPrivateKey:(NSString *)privateKey passphrase:(NSString *)passphrase error:(NSError **)errorRef
 {
 	if (self = [super init]){
-		self.timeoutCounter = 0;
-		self.queue = dispatch_queue_create("JS timer queue", DISPATCH_QUEUE_CONCURRENT);
-		self.dispatchSourcesMapping = [NSMapTable weakToWeakObjectsMapTable];
+		[self setUp];
 		
-		self.JSContext = [[JSContext alloc] init];
-		[self.JSContext setExceptionHandler:^(JSContext *context, JSValue *exception) {
-			NSLog(@"%@", exception);
-		}];
-		self.JSContext[@"console"][@"log"] = ^(JSValue *message){
-			NSLog(@"%@", [message toObject]);
-		};
-		self.JSContext[@"setTimeout"] = [self setTimeout];
-		self.JSContext[@"setInterval"] = [self setInterval];
-		self.JSContext[@"clearTimeout"] = [self clearTimeout];
-		self.JSContext[@"clearInterval"] = [self clearTimeout];
+		if (!privateKey){
+			privateKey = [self createPrivateKeyWithPassphrase:passphrase error:errorRef];
+		}
 		
-		self.JSContext[@"self"] = @{};
-		self.JSContext[@"window"] = self.JSContext[@"self"];
-		self.JSContext[@"crypto"] = @{};
-		self.JSContext[@"crypto"][@"getRandomValues"] = ^(JSValue *countObject){
-			// TODO: this should return secure random numbers
-			NSArray *countArray = [countObject toArray];
-			NSMutableArray *array = [NSMutableArray array];
-			for (__unused NSNumber *number in countArray){
-				[array addObject:@(arc4random())];
-			}
-			return [NSArray arrayWithArray:array];
-			
-		};
-		[self.JSContext evaluateScript:[NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"kbpgp" ofType:@"js"] encoding:NSUTF8StringEncoding error:nil]];
+		[self configureWithUserID:nil privateKey:privateKey passphrase:passphrase error:errorRef];
+	}
+	return self;
+}
+
+- (void)setUp
+{
+	self.timeoutCounter = 0;
+	self.queue = dispatch_queue_create("JS timer queue", DISPATCH_QUEUE_CONCURRENT);
+	self.dispatchSourcesMapping = [NSMapTable weakToWeakObjectsMapTable];
+	
+	self.JSContext = [[JSContext alloc] init];
+	[self.JSContext setExceptionHandler:^(JSContext *context, JSValue *exception) {
+		NSLog(@"%@", exception);
+	}];
+	self.JSContext[@"console"][@"log"] = ^(JSValue *message){
+		NSLog(@"%@", [message toString]);
+	};
+	self.JSContext[@"setTimeout"] = [self setTimeout];
+	self.JSContext[@"setInterval"] = [self setInterval];
+	self.JSContext[@"clearTimeout"] = [self clearTimeout];
+	self.JSContext[@"clearInterval"] = [self clearTimeout];
+	
+	self.JSContext[@"self"] = @{};
+	self.JSContext[@"window"] = self.JSContext[@"self"];
+	self.JSContext[@"window"][@"crypto"] = @{};
+	self.JSContext[@"window"][@"crypto"][@"getRandomValues"] = ^(JSValue *countObject){
+		// TODO: this should return secure random numbers
+		NSArray *countArray = [countObject toArray];
+		NSMutableArray *array = [NSMutableArray array];
+		for (__unused NSNumber *number in countArray){
+			[array addObject:@(arc4random())];
+		}
+		return [NSArray arrayWithArray:array];
 		
-		self.GPG = self.JSContext[@"self"][@"kbpgp"];
+	};
+	[self.JSContext evaluateScript:[NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"kbpgp" ofType:@"js"] encoding:NSUTF8StringEncoding error:nil]];
+	
+	self.GPG = self.JSContext[@"self"][@"kbpgp"];
+}
+
+- (void)configureWithUserID:(NSString *)userID privateKey:(NSString *)privateKeyString passphrase:(NSString *)passphrase error:(NSError **)errorRef
+{
+	dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+	
+	__weak typeof(self) weakSelf = self;
+	[self.GPG[@"KeyManager"] invokeMethod:@"import_from_armored_pgp" withArguments:@[@{@"armored" : privateKeyString}, ^(JSValue *error, JSValue *keyManager){
 		
-		dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-		
-		__weak typeof(self) weakSelf = self;
-		NSString *privateKeyString = [[NSUserDefaults standardUserDefaults] objectForKey:@"private"];
-		if (!privateKeyString){
-			[self.GPG[@"KeyManager"] invokeMethod:@"generate_ecc" withArguments:@[@{@"userid": userID}, ^(JSValue *error, JSValue *key){
+		if ([[keyManager invokeMethod:@"is_pgp_locked" withArguments:nil] toBool]){
+			[keyManager invokeMethod:@"unlock_pgp" withArguments:@[@{@"passphrase" : passphrase}, ^(JSValue *error){
 				__strong typeof(weakSelf) strongSelf = weakSelf;
-				strongSelf.keyManager = key;
-				[key invokeMethod:@"sign" withArguments:@[@{}, ^(JSValue *error){
-					[key invokeMethod:@"export_pgp_private" withArguments:@[@{@"passphrase" : passphrase}, ^(JSValue *error, JSValue *key){
-						NSString *keyString = [key toString];
-						[[NSUserDefaults standardUserDefaults] setObject:keyString forKey:@"private"];
-						NSLog(@"Created new private key");
-						dispatch_semaphore_signal(semaphore);
-					}]];
-				}]];
-				
-			}]];
-		} else {
-			[self.GPG[@"KeyManager"] invokeMethod:@"import_from_armored_pgp" withArguments:@[@{@"armored" : privateKeyString}, ^(JSValue *error, JSValue *keyManager){
-				
-				if ([[keyManager invokeMethod:@"is_pgp_locked" withArguments:nil] toBool]){
-					[keyManager invokeMethod:@"unlock_pgp" withArguments:@[@{@"passphrase" : passphrase}, ^(JSValue *error){
-						__strong typeof(weakSelf) strongSelf = weakSelf;
-						if (![error isNull]){
-							if (errorRef){
-								// TODO: Handle errors
-//								*errorRef = [NSError errorWithDomain:NSStringFromClass([self class]) code:0 userInfo:@{NSLocalizedDescriptionKey : [error toString]}];
-							}
-							NSLog(@"Failed to load private key with error: %@", [error toString]);
-							dispatch_semaphore_signal(semaphore);
-						} else {
-							NSLog(@"Loaded private key with passphrase");
-							strongSelf.keyManager = keyManager;
-							dispatch_semaphore_signal(semaphore);
-						}
-					}]];
+				if (![error isNull]){
+					if (errorRef){
+						// TODO: Handle errors
+						// *errorRef = [NSError errorWithDomain:NSStringFromClass([self class]) code:0 userInfo:@{NSLocalizedDescriptionKey : [error toString]}];
+					}
+					NSLog(@"Failed to load private key with error: %@", [error toString]);
+					dispatch_semaphore_signal(semaphore);
 				} else {
-					NSLog(@"Loaded private key without passphrase");
-					__strong typeof(weakSelf) strongSelf = weakSelf;
+					NSLog(@"Loaded private key with passphrase");
 					strongSelf.keyManager = keyManager;
 					dispatch_semaphore_signal(semaphore);
 				}
 			}]];
+		} else {
+			NSLog(@"Loaded private key without passphrase");
+			__strong typeof(weakSelf) strongSelf = weakSelf;
+			strongSelf.keyManager = keyManager;
+			dispatch_semaphore_signal(semaphore);
 		}
-		dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-	}
-	return self;
+	}]];
+	dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+}
+
+- (NSString *)createPrivateKeyWithPassphrase:(NSString *)passphrase error:(NSError **)errorRef
+{
+	dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+	
+	__block NSString *privateKeyString = nil;
+	NSString *userID = @"";
+	__weak typeof(self) weakSelf = self;
+	[self.GPG[@"KeyManager"] invokeMethod:@"generate_ecc" withArguments:@[@{@"userid": userID}, ^(JSValue *error, JSValue *key){
+		__strong typeof(weakSelf) strongSelf = weakSelf;
+		strongSelf.keyManager = key;
+		[key invokeMethod:@"sign" withArguments:@[@{}, ^(JSValue *error){
+			[key invokeMethod:@"export_pgp_private" withArguments:@[@{@"passphrase" : passphrase}, ^(JSValue *error, JSValue *key){
+				NSString *keyString = [key toString];
+				privateKeyString = keyString;
+				NSLog(@"Created new private key");
+				dispatch_semaphore_signal(semaphore);
+			}]];
+		}]];
+		
+	}]];
+	dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+	return privateKeyString;
 }
 
 
@@ -220,12 +241,14 @@
 	
 	[self.GPG invokeMethod:@"unbox" withArguments:@[@{@"keyfetch" : keyRing, @"armored": encryptedString}, ^(JSValue *error, JSValue *resultString){
 		
-		File *file = [[File alloc] initWithString:[resultString toString]];
-		
-		
-		NSString *path = [NSTemporaryDirectory() stringByAppendingPathComponent:file.filename];
-		[file.data writeToFile:path atomically:YES];
-		completion([NSURL fileURLWithPath:path]);
+		if ([error isNull]){
+			File *file = [[File alloc] initWithString:[resultString toString]];
+			NSString *path = [NSTemporaryDirectory() stringByAppendingPathComponent:file.filename];
+			[file.data writeToFile:path atomically:YES];
+			completion([NSURL fileURLWithPath:path]);
+		} else {
+			completion(nil);
+		}
 	}]];
 }
 

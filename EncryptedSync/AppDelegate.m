@@ -19,7 +19,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	NSError *error = nil;
-	self.encryption = [[Encryption alloc] initWithUserID:@"user@example.com" passphrase:@"hello" error:&error];
+	self.encryption = [[Encryption alloc] initWithPrivateKey:[[NSUserDefaults standardUserDefaults] objectForKey:@"private"] passphrase:@"hello" error:&error];
 	if (error){
 		NSLog(@"%@", error);
 	} else {
