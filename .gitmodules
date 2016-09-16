@@ -1,0 +1,3 @@
+[submodule "Vendor/KeybasePGP"]
+	path = Vendor/KeybasePGP
+	url = git@github.com:keybase/kbpgp.git

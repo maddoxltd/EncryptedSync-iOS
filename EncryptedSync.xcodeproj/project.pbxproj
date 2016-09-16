@@ -13,6 +13,11 @@
 		F42AA5371D8C0C6900D34BF7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F42AA5351D8C0C6900D34BF7 /* Main.storyboard */; };
 		F42AA5391D8C0C6900D34BF7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F42AA5381D8C0C6900D34BF7 /* Assets.xcassets */; };
 		F42AA53C1D8C0C6900D34BF7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F42AA53A1D8C0C6900D34BF7 /* LaunchScreen.storyboard */; };
+		F42AA5441D8C0CB400D34BF7 /* kbpgp.js in Resources */ = {isa = PBXBuildFile; fileRef = F42AA5431D8C0CB400D34BF7 /* kbpgp.js */; };
+		F42AA5461D8C0CBB00D34BF7 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F42AA5451D8C0CBB00D34BF7 /* JavaScriptCore.framework */; };
+		F42AA5511D8C47FE00D34BF7 /* Encryption.m in Sources */ = {isa = PBXBuildFile; fileRef = F42AA5501D8C47FE00D34BF7 /* Encryption.m */; };
+		F42AA5541D8C4CE200D34BF7 /* File.m in Sources */ = {isa = PBXBuildFile; fileRef = F42AA5531D8C4CE200D34BF7 /* File.m */; };
+		F42AA5561D8C5B9900D34BF7 /* image.png in Resources */ = {isa = PBXBuildFile; fileRef = F42AA5551D8C5B9900D34BF7 /* image.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +31,13 @@
 		F42AA5381D8C0C6900D34BF7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F42AA53B1D8C0C6900D34BF7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F42AA53D1D8C0C6900D34BF7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F42AA5431D8C0CB400D34BF7 /* kbpgp.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = kbpgp.js; path = Vendor/KeybasePGP/browser/kbpgp.js; sourceTree = SOURCE_ROOT; };
+		F42AA5451D8C0CBB00D34BF7 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		F42AA54F1D8C47FE00D34BF7 /* Encryption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Encryption.h; sourceTree = "<group>"; };
+		F42AA5501D8C47FE00D34BF7 /* Encryption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Encryption.m; sourceTree = "<group>"; };
+		F42AA5521D8C4CE200D34BF7 /* File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = File.h; sourceTree = "<group>"; };
+		F42AA5531D8C4CE200D34BF7 /* File.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = File.m; sourceTree = "<group>"; };
+		F42AA5551D8C5B9900D34BF7 /* image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F42AA5461D8C0CBB00D34BF7 /* JavaScriptCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +55,7 @@
 		F42AA5201D8C0C6900D34BF7 = {
 			isa = PBXGroup;
 			children = (
+				F42AA5451D8C0CBB00D34BF7 /* JavaScriptCore.framework */,
 				F42AA52B1D8C0C6900D34BF7 /* EncryptedSync */,
 				F42AA52A1D8C0C6900D34BF7 /* Products */,
 			);
@@ -62,10 +76,16 @@
 				F42AA5301D8C0C6900D34BF7 /* AppDelegate.m */,
 				F42AA5321D8C0C6900D34BF7 /* ViewController.h */,
 				F42AA5331D8C0C6900D34BF7 /* ViewController.m */,
+				F42AA54F1D8C47FE00D34BF7 /* Encryption.h */,
+				F42AA5501D8C47FE00D34BF7 /* Encryption.m */,
+				F42AA5521D8C4CE200D34BF7 /* File.h */,
+				F42AA5531D8C4CE200D34BF7 /* File.m */,
 				F42AA5351D8C0C6900D34BF7 /* Main.storyboard */,
 				F42AA5381D8C0C6900D34BF7 /* Assets.xcassets */,
 				F42AA53A1D8C0C6900D34BF7 /* LaunchScreen.storyboard */,
 				F42AA53D1D8C0C6900D34BF7 /* Info.plist */,
+				F42AA5431D8C0CB400D34BF7 /* kbpgp.js */,
+				F42AA5551D8C5B9900D34BF7 /* image.png */,
 				F42AA52C1D8C0C6900D34BF7 /* Supporting Files */,
 			);
 			path = EncryptedSync;
@@ -139,6 +159,8 @@
 				F42AA53C1D8C0C6900D34BF7 /* LaunchScreen.storyboard in Resources */,
 				F42AA5391D8C0C6900D34BF7 /* Assets.xcassets in Resources */,
 				F42AA5371D8C0C6900D34BF7 /* Main.storyboard in Resources */,
+				F42AA5441D8C0CB400D34BF7 /* kbpgp.js in Resources */,
+				F42AA5561D8C5B9900D34BF7 /* image.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,8 +171,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F42AA5541D8C4CE200D34BF7 /* File.m in Sources */,
 				F42AA5341D8C0C6900D34BF7 /* ViewController.m in Sources */,
 				F42AA5311D8C0C6900D34BF7 /* AppDelegate.m in Sources */,
+				F42AA5511D8C47FE00D34BF7 /* Encryption.m in Sources */,
 				F42AA52E1D8C0C6900D34BF7 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
