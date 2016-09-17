@@ -18,6 +18,10 @@
 		F42AA5511D8C47FE00D34BF7 /* Encryption.m in Sources */ = {isa = PBXBuildFile; fileRef = F42AA5501D8C47FE00D34BF7 /* Encryption.m */; };
 		F42AA5541D8C4CE200D34BF7 /* File.m in Sources */ = {isa = PBXBuildFile; fileRef = F42AA5531D8C4CE200D34BF7 /* File.m */; };
 		F42AA5561D8C5B9900D34BF7 /* image.png in Resources */ = {isa = PBXBuildFile; fileRef = F42AA5551D8C5B9900D34BF7 /* image.png */; };
+		F42AA5591D8D4D5B00D34BF7 /* AsynchronousOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F42AA5581D8D4D5B00D34BF7 /* AsynchronousOperation.m */; };
+		F42AA55C1D8D4EB400D34BF7 /* EncryptOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F42AA55B1D8D4EB400D34BF7 /* EncryptOperation.m */; };
+		F42AA55F1D8D4F6500D34BF7 /* DecryptOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F42AA55E1D8D4F6500D34BF7 /* DecryptOperation.m */; };
+		F42AA5641D8D550800D34BF7 /* DownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F42AA5631D8D550800D34BF7 /* DownloadOperation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +42,14 @@
 		F42AA5521D8C4CE200D34BF7 /* File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = File.h; sourceTree = "<group>"; };
 		F42AA5531D8C4CE200D34BF7 /* File.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = File.m; sourceTree = "<group>"; };
 		F42AA5551D8C5B9900D34BF7 /* image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image.png; sourceTree = "<group>"; };
+		F42AA5571D8D4D5B00D34BF7 /* AsynchronousOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsynchronousOperation.h; sourceTree = "<group>"; };
+		F42AA5581D8D4D5B00D34BF7 /* AsynchronousOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsynchronousOperation.m; sourceTree = "<group>"; };
+		F42AA55A1D8D4EB400D34BF7 /* EncryptOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncryptOperation.h; sourceTree = "<group>"; };
+		F42AA55B1D8D4EB400D34BF7 /* EncryptOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EncryptOperation.m; sourceTree = "<group>"; };
+		F42AA55D1D8D4F6500D34BF7 /* DecryptOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecryptOperation.h; sourceTree = "<group>"; };
+		F42AA55E1D8D4F6500D34BF7 /* DecryptOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DecryptOperation.m; sourceTree = "<group>"; };
+		F42AA5621D8D550800D34BF7 /* DownloadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadOperation.h; sourceTree = "<group>"; };
+		F42AA5631D8D550800D34BF7 /* DownloadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadOperation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +88,14 @@
 				F42AA5301D8C0C6900D34BF7 /* AppDelegate.m */,
 				F42AA5321D8C0C6900D34BF7 /* ViewController.h */,
 				F42AA5331D8C0C6900D34BF7 /* ViewController.m */,
+				F42AA5571D8D4D5B00D34BF7 /* AsynchronousOperation.h */,
+				F42AA5581D8D4D5B00D34BF7 /* AsynchronousOperation.m */,
+				F42AA55A1D8D4EB400D34BF7 /* EncryptOperation.h */,
+				F42AA55B1D8D4EB400D34BF7 /* EncryptOperation.m */,
+				F42AA55D1D8D4F6500D34BF7 /* DecryptOperation.h */,
+				F42AA55E1D8D4F6500D34BF7 /* DecryptOperation.m */,
+				F42AA5621D8D550800D34BF7 /* DownloadOperation.h */,
+				F42AA5631D8D550800D34BF7 /* DownloadOperation.m */,
 				F42AA54F1D8C47FE00D34BF7 /* Encryption.h */,
 				F42AA5501D8C47FE00D34BF7 /* Encryption.m */,
 				F42AA5521D8C4CE200D34BF7 /* File.h */,
@@ -172,9 +192,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				F42AA5541D8C4CE200D34BF7 /* File.m in Sources */,
+				F42AA55F1D8D4F6500D34BF7 /* DecryptOperation.m in Sources */,
+				F42AA5591D8D4D5B00D34BF7 /* AsynchronousOperation.m in Sources */,
 				F42AA5341D8C0C6900D34BF7 /* ViewController.m in Sources */,
 				F42AA5311D8C0C6900D34BF7 /* AppDelegate.m in Sources */,
+				F42AA55C1D8D4EB400D34BF7 /* EncryptOperation.m in Sources */,
 				F42AA5511D8C47FE00D34BF7 /* Encryption.m in Sources */,
+				F42AA5641D8D550800D34BF7 /* DownloadOperation.m in Sources */,
 				F42AA52E1D8C0C6900D34BF7 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "544D7F51AAD52C75B8FCF54E6A41F1F20F67F82C",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "544D7F51AAD52C75B8FCF54E6A41F1F20F67F82C" : 0,
+    "DF8BB472363371F7E205BF24F2C011E3FC992352" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "F22A739D-C9A0-4E0E-83B0-D2746662D6B0",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "544D7F51AAD52C75B8FCF54E6A41F1F20F67F82C" : "EncryptedSync\/",
+    "DF8BB472363371F7E205BF24F2C011E3FC992352" : "EncryptedSync\/Vendor\/KeybasePGP\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "EncryptedSync",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "EncryptedSync.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:simonmaddox\/EncryptedSync-iOS.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "544D7F51AAD52C75B8FCF54E6A41F1F20F67F82C"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:keybase\/kbpgp.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "DF8BB472363371F7E205BF24F2C011E3FC992352"
+    }
+  ]
+}
