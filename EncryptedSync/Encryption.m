@@ -277,10 +277,10 @@
 	}]];
 }
 
-- (void)decryptMetadataFile:(NSURL *)fileURL completion:(void (^)(NSString *filename))completion;
+- (void)decryptMetadataFile:(NSURL *)fileURL completion:(void (^)(NSString *filename, NSError *error))completion;
 {
 	if (!fileURL || !self.keyManager){
-		completion(nil);
+		completion(nil, nil);
 		return;
 	}
 	
@@ -290,16 +290,16 @@
 	NSString *encryptedString = [NSString stringWithContentsOfURL:fileURL encoding:NSUTF8StringEncoding error:nil];
 	
 	if (!encryptedString){
-		completion(nil);
+		completion(nil, nil);
 		return;
 	}
 	
 	[self.GPG invokeMethod:@"unbox" withArguments:@[@{@"keyfetch" : keyRing, @"armored": encryptedString}, ^(JSValue *error, JSValue *resultString){
 		
 		if ([error isNull]){
-			completion([resultString toString]);
+			completion([resultString toString], nil);
 		} else {
-			completion(nil);
+			completion(nil, [NSError errorWithDomain:NSStringFromClass([self class]) code:1 userInfo:@{NSLocalizedDescriptionKey: [error toString]}]);
 		}
 	}]];
 }

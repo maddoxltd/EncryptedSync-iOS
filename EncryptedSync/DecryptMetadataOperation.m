@@ -16,7 +16,7 @@
 	[super start];
 	
 	__weak typeof(self) weakSelf = self;
-	[self.encryption decryptMetadataFile:self.fileURL completion:^(NSString *filename) {
+	[self.encryption decryptMetadataFile:self.fileURL completion:^(NSString *filename, NSError *error) {
 		__strong typeof(weakSelf) strongSelf = weakSelf;
 		strongSelf.filename = filename;
 		[strongSelf finish];
