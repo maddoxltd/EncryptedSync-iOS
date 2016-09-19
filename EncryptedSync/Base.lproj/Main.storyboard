@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
-        <!--Files View Controller-->
+        <!--Encrypted Sync-->
         <scene sceneID="jaU-4X-cLR">
             <objects>
                 <tableViewController id="DaV-lJ-isE" customClass="FilesViewController" sceneMemberID="viewController">
@@ -37,7 +37,13 @@
                             <outlet property="delegate" destination="DaV-lJ-isE" id="WGT-Ja-Ar0"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="yNS-Et-UF1"/>
+                    <navigationItem key="navigationItem" title="Encrypted Sync" id="yNS-Et-UF1"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="Xot-4Q-e5T">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <action selector="refreshFiles:" destination="DaV-lJ-isE" eventType="valueChanged" id="wxM-0q-WEP"/>
+                        </connections>
+                    </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYQ-Nk-Lca" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

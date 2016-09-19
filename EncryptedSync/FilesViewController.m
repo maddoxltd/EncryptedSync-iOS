@@ -24,15 +24,20 @@
 	
 	self.encryptionBridge = [[EncryptionBridge alloc] init];
 	
+	[self refreshFiles:nil];
+
+}
+- (IBAction)refreshFiles:(id)sender
+{
 	__weak typeof(self) weakSelf = self;
 	[self.encryptionBridge listFilesWithCompletion:^(NSArray<File *> *files, NSError *error) {
 		dispatch_async(dispatch_get_main_queue(), ^{
 			__strong typeof(weakSelf) strongSelf = weakSelf;
 			strongSelf.files = files;
 			[strongSelf.tableView reloadData];
+			[strongSelf.refreshControl endRefreshing];
 		});
 	}];
-
 }
 
 #pragma mark - Table view data source
