@@ -10,6 +10,8 @@
 
 @interface UploadOperation : NetworkOperation
 
+@property (nonatomic, strong) NSString *prefix;
+
 - (NSString *)key;
 
 @end

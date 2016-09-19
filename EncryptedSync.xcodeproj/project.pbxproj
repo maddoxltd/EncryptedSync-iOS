@@ -32,6 +32,8 @@
 		F42AA62C1D8D5E6F00D34BF7 /* ClockFace.png in Resources */ = {isa = PBXBuildFile; fileRef = F42AA62B1D8D5E6F00D34BF7 /* ClockFace.png */; };
 		F42AA63D1D8FFEA600D34BF7 /* NetworkOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F42AA63C1D8FFEA600D34BF7 /* NetworkOperation.m */; };
 		F42AA6411D90021400D34BF7 /* EncryptionBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = F42AA6401D90021400D34BF7 /* EncryptionBridge.m */; };
+		F42AA6441D90109F00D34BF7 /* ListOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F42AA6431D90109F00D34BF7 /* ListOperation.m */; };
+		F42AA6471D90235B00D34BF7 /* DecryptMetadataOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F42AA6461D90235B00D34BF7 /* DecryptMetadataOperation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -514,6 +516,10 @@
 		F42AA63C1D8FFEA600D34BF7 /* NetworkOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkOperation.m; sourceTree = "<group>"; };
 		F42AA63F1D90021400D34BF7 /* EncryptionBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncryptionBridge.h; sourceTree = "<group>"; };
 		F42AA6401D90021400D34BF7 /* EncryptionBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EncryptionBridge.m; sourceTree = "<group>"; };
+		F42AA6421D90109F00D34BF7 /* ListOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListOperation.h; sourceTree = "<group>"; };
+		F42AA6431D90109F00D34BF7 /* ListOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListOperation.m; sourceTree = "<group>"; };
+		F42AA6451D90235B00D34BF7 /* DecryptMetadataOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecryptMetadataOperation.h; sourceTree = "<group>"; };
+		F42AA6461D90235B00D34BF7 /* DecryptMetadataOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DecryptMetadataOperation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -681,12 +687,16 @@
 				F42AA55B1D8D4EB400D34BF7 /* EncryptOperation.m */,
 				F42AA55D1D8D4F6500D34BF7 /* DecryptOperation.h */,
 				F42AA55E1D8D4F6500D34BF7 /* DecryptOperation.m */,
+				F42AA6451D90235B00D34BF7 /* DecryptMetadataOperation.h */,
+				F42AA6461D90235B00D34BF7 /* DecryptMetadataOperation.m */,
 				F42AA63B1D8FFEA600D34BF7 /* NetworkOperation.h */,
 				F42AA63C1D8FFEA600D34BF7 /* NetworkOperation.m */,
 				F42AA5621D8D550800D34BF7 /* DownloadOperation.h */,
 				F42AA5631D8D550800D34BF7 /* DownloadOperation.m */,
 				F42AA6281D8D592100D34BF7 /* UploadOperation.h */,
 				F42AA6291D8D592100D34BF7 /* UploadOperation.m */,
+				F42AA6421D90109F00D34BF7 /* ListOperation.h */,
+				F42AA6431D90109F00D34BF7 /* ListOperation.m */,
 			);
 			name = Operations;
 			sourceTree = "<group>";
@@ -1183,10 +1193,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F42AA6471D90235B00D34BF7 /* DecryptMetadataOperation.m in Sources */,
 				F42AA63D1D8FFEA600D34BF7 /* NetworkOperation.m in Sources */,
 				F42AA62A1D8D592100D34BF7 /* UploadOperation.m in Sources */,
 				F42AA5541D8C4CE200D34BF7 /* File.m in Sources */,
 				F42AA55F1D8D4F6500D34BF7 /* DecryptOperation.m in Sources */,
+				F42AA6441D90109F00D34BF7 /* ListOperation.m in Sources */,
 				F42AA5591D8D4D5B00D34BF7 /* AsynchronousOperation.m in Sources */,
 				F42AA6411D90021400D34BF7 /* EncryptionBridge.m in Sources */,
 				F42AA5341D8C0C6900D34BF7 /* ViewController.m in Sources */,

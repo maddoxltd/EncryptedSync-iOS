@@ -21,7 +21,7 @@
 {
 	self.encryptionBridge = [[EncryptionBridge alloc] init];
 	
-	__weak typeof(self) weakSelf = self;
+	/*__weak typeof(self) weakSelf = self;
 	[self.encryptionBridge encryptAndUploadFile:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"ClockFace" ofType:@"png"]] completion:^(NSString *remotePath, NSError *error) {
 		NSLog(@"Uploaded: %@", remotePath);
 		
@@ -29,6 +29,10 @@
 		[strongSelf.encryptionBridge downloadAndDecryptFileAtPath:remotePath completion:^(NSURL *fileURL, NSError *error) {
 			NSLog(@"Downloaded: %@", [fileURL path]);
 		}];
+	}];*/
+	
+	[self.encryptionBridge listFilesWithCompletion:^(NSArray<NSString *> *files, NSError *error) {
+		NSLog(@"Files: %@", files);
 	}];
 	return YES;
 }

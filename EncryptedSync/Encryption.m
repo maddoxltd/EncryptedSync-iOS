@@ -195,17 +195,17 @@
 
 #pragma mark - Public
 
-- (void)encryptFile:(NSURL *)fileURL completion:(void (^)(NSURL *encryptedURL))completion
+- (void)encryptFile:(NSURL *)fileURL completion:(void (^)(NSURL *encryptedURL, NSURL *metadataURL))completion
 {
 	if (!fileURL || !self.keyManager){
-		completion(nil);
+		completion(nil, nil);
 		return;
 	}
 	
 	NSData *data = [NSData dataWithContentsOfURL:fileURL];
 	
 	if (!data){
-		completion(nil);
+		completion(nil, nil);
 		return;
 	}
 	
@@ -213,13 +213,38 @@
 	file.filename = [fileURL lastPathComponent];
 	file.data = data;
 	
+	__block NSURL *encryptedFileURL = nil;
+	__block NSURL *encryptedMetaDataURL = nil;
+	
+	NSString *encryptedFile = [NSTemporaryDirectory() stringByAppendingPathComponent:[[NSUUID UUID] UUIDString]];
+	
+	dispatch_group_t group = dispatch_group_create();
+	
+	dispatch_group_enter(group);
 	[self.GPG invokeMethod:@"box" withArguments:@[@{@"msg": [file stringRepresentation], @"sign_with": self.keyManager}, ^(JSValue *error, JSValue *resultString, JSValue *resultBuffer){
 		
-		NSString *encryptedFile = [NSTemporaryDirectory() stringByAppendingPathComponent:[[NSUUID UUID] UUIDString]];
-		[[resultString toString] writeToFile:encryptedFile atomically:YES encoding:NSUTF8StringEncoding error:nil];
-		completion([NSURL fileURLWithPath:encryptedFile]);
 		
+		[[resultString toString] writeToFile:encryptedFile atomically:YES encoding:NSUTF8StringEncoding error:nil];
+		encryptedFileURL = [NSURL fileURLWithPath:encryptedFile];
+		dispatch_group_leave(group);
 	}]];
+	
+	dispatch_group_enter(group);
+	[self.GPG invokeMethod:@"box" withArguments:@[@{@"msg": [fileURL lastPathComponent], @"sign_with": self.keyManager}, ^(JSValue *error, JSValue *resultString, JSValue *resultBuffer){
+		
+		NSString *filename = [@"." stringByAppendingString:[encryptedFile lastPathComponent]];
+		NSString *folder = [encryptedFile stringByDeletingLastPathComponent];
+		NSString *path = [folder stringByAppendingPathComponent:filename];
+		
+		
+		[[resultString toString] writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];
+		encryptedMetaDataURL = [NSURL fileURLWithPath:path];
+		dispatch_group_leave(group);
+	}]];
+	
+	dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+	
+	completion(encryptedFileURL, encryptedMetaDataURL);
 }
 
 - (void)decryptFile:(NSURL *)fileURL completion:(void (^)(NSURL *decryptedURL))completion
@@ -246,6 +271,33 @@
 			NSString *path = [NSTemporaryDirectory() stringByAppendingPathComponent:file.filename];
 			[file.data writeToFile:path atomically:YES];
 			completion([NSURL fileURLWithPath:path]);
+		} else {
+			completion(nil);
+		}
+	}]];
+}
+
+- (void)decryptMetadataFile:(NSURL *)fileURL completion:(void (^)(NSString *filename))completion;
+{
+	if (!fileURL || !self.keyManager){
+		completion(nil);
+		return;
+	}
+	
+	JSValue *keyRing = [self.GPG[@"keyring"][@"KeyRing"] constructWithArguments:nil];
+	[keyRing invokeMethod:@"add_key_manager" withArguments:@[self.keyManager]];
+	
+	NSString *encryptedString = [NSString stringWithContentsOfURL:fileURL encoding:NSUTF8StringEncoding error:nil];
+	
+	if (!encryptedString){
+		completion(nil);
+		return;
+	}
+	
+	[self.GPG invokeMethod:@"unbox" withArguments:@[@{@"keyfetch" : keyRing, @"armored": encryptedString}, ^(JSValue *error, JSValue *resultString){
+		
+		if ([error isNull]){
+			completion([resultString toString]);
 		} else {
 			completion(nil);
 		}

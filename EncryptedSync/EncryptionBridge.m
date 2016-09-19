@@ -15,6 +15,9 @@
 #import "DownloadOperation.h"
 #import "DecryptOperation.h"
 
+#import "ListOperation.h"
+#import "DecryptMetadataOperation.h"
+
 @interface EncryptionBridge ()
 
 @property (nonatomic, strong) NSOperationQueue *queue;
@@ -47,13 +50,20 @@
 	UploadOperation *uploadOperation = [[UploadOperation alloc] init];
 	[uploadOperation addDependency:encryptOperation];
 	
+	UploadOperation *metadataUploadOperation = [[UploadOperation alloc] init];
+	metadataUploadOperation.prefix = @".";
+	[metadataUploadOperation addDependency:encryptOperation];
+	
 	__weak typeof(encryptOperation) weakEncryptOperation = encryptOperation;
 	__weak typeof(uploadOperation) weakUploadOperation = uploadOperation;
+	__weak typeof(metadataUploadOperation) weakMetadataUploadOperation = metadataUploadOperation;
 	[encryptOperation setOperationCompleteBlock:^{
 		__strong typeof(weakEncryptOperation) strongEncryptOperation = weakEncryptOperation;
 		__strong typeof(weakUploadOperation) strongUploadOperation = weakUploadOperation;
+		__strong typeof(weakMetadataUploadOperation) strongMetadataUploadOperation = weakMetadataUploadOperation;
 		
 		strongUploadOperation.fileURL = strongEncryptOperation.encryptedFileURL;
+		strongMetadataUploadOperation.fileURL = strongEncryptOperation.encryptedMetadataURL;
 	}];
 	
 	[uploadOperation setOperationCompleteBlock:^{
@@ -63,6 +73,7 @@
 	
 	[self.queue addOperation:encryptOperation];
 	[self.queue addOperation:uploadOperation];
+	[self.queue addOperation:metadataUploadOperation];
 }
 
 - (void)downloadAndDecryptFileAtPath:(NSString *)path completion:(void (^)(NSURL *fileURL, NSError *error))completion
@@ -90,6 +101,47 @@
 	
 	[self.queue addOperation:downloadOperation];
 	[self.queue addOperation:decryptOperation];
+}
+
+- (void)downloadAndDecryptMetadataFileAtPath:(NSString *)path completion:(void (^)(NSString *filename, NSError *error))completion
+{
+	DownloadOperation *downloadOperation = [[DownloadOperation alloc] init];
+	downloadOperation.remotePath = path;
+	
+	DecryptMetadataOperation *decryptOperation = [[DecryptMetadataOperation alloc] init];
+	decryptOperation.encryption = self.encryption;
+	[decryptOperation addDependency:downloadOperation];
+	
+	__weak typeof(downloadOperation) weakDownloadOperation = downloadOperation;
+	__weak typeof(decryptOperation) weakDecryptOperation = decryptOperation;
+	[downloadOperation setOperationCompleteBlock:^{
+		__strong typeof(weakDownloadOperation) strongDownloadOperation = weakDownloadOperation;
+		__strong typeof(weakDecryptOperation) strongDecryptOperation = weakDecryptOperation;
+		
+		strongDecryptOperation.fileURL = strongDownloadOperation.fileURL;
+	}];
+	
+	[decryptOperation setOperationCompleteBlock:^{
+		__strong typeof(weakDecryptOperation) strongDecryptOperation = weakDecryptOperation;
+		completion(strongDecryptOperation.filename, nil);
+	}];
+	
+	[self.queue addOperation:downloadOperation];
+	[self.queue addOperation:decryptOperation];
+}
+
+- (void)listFilesWithCompletion:(void (^)(NSArray <NSString *> *files, NSError *error))completion
+{
+	ListOperation *listOperation = [[ListOperation alloc] init];
+	listOperation.encryptionBridge = self;
+	
+	__weak typeof(listOperation) weakListOperation = listOperation;
+	[listOperation setOperationCompleteBlock:^{
+		__strong typeof(weakListOperation) strongListOperation = weakListOperation;
+		completion(strongListOperation.files, nil);
+	}];
+	
+	[self.queue addOperation:listOperation];
 }
 
 @end
