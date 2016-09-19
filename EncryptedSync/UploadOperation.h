@@ -1,5 +1,5 @@
 //
-//  DownloadOperation.h
+//  UploadOperation.h
 //  EncryptedSync
 //
 //  Created by Simon Maddox on 17/09/2016.
@@ -8,8 +8,8 @@
 
 #import "NetworkOperation.h"
 
-@interface DownloadOperation : NetworkOperation
+@interface UploadOperation : NetworkOperation
 
-@property (nonatomic, copy) NSString *remotePath;
+- (NSString *)key;
 
 @end

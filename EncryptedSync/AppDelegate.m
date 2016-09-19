@@ -7,14 +7,11 @@
 //
 
 #import "AppDelegate.h"
-#import "Encryption.h"
-
-#import "EncryptOperation.h"
-#import "DecryptOperation.h"
+#import "EncryptionBridge.h"
 
 @interface AppDelegate ()
-@property (nonatomic, strong) Encryption *encryption;
-@property (nonatomic, strong) NSOperationQueue *operationQueue;
+
+@property (nonatomic, strong) EncryptionBridge *encryptionBridge;
 @end
 
 @implementation AppDelegate
@@ -22,40 +19,17 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-	self.operationQueue = [[NSOperationQueue alloc] init];
+	self.encryptionBridge = [[EncryptionBridge alloc] init];
 	
-	NSError *error = nil;
-	// TODO: Private key needs to be stored securely
-	self.encryption = [[Encryption alloc] initWithPrivateKey:[[NSUserDefaults standardUserDefaults] objectForKey:@"private"] passphrase:@"hello" error:&error];
-	if (error){
-		NSLog(@"%@", error);
-	} else {
+	__weak typeof(self) weakSelf = self;
+	[self.encryptionBridge encryptAndUploadFile:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"ClockFace" ofType:@"png"]] completion:^(NSString *remotePath, NSError *error) {
+		NSLog(@"Uploaded: %@", remotePath);
 		
-		EncryptOperation *encryptOperation = [[EncryptOperation alloc] init];
-		encryptOperation.encryption = self.encryption;
-		encryptOperation.fileURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"image" ofType:@"png"]];
-		
-		DecryptOperation *decryptOperation = [[DecryptOperation alloc] init];
-		decryptOperation.encryption = self.encryption;
-		
-		[decryptOperation addDependency:encryptOperation];
-		__weak typeof(encryptOperation) weakEncryptOperation = encryptOperation;
-		__weak typeof(decryptOperation) weakDecryptOperation = decryptOperation;
-		[encryptOperation setOperationCompleteBlock:^{
-			__strong typeof(weakEncryptOperation) strongEncryptOperation = weakEncryptOperation;
-			__strong typeof(weakDecryptOperation) strongDecryptOperation = weakDecryptOperation;
-			
-			strongDecryptOperation.fileURL = strongEncryptOperation.encryptedFileURL;
+		__strong typeof(weakSelf) strongSelf = weakSelf;
+		[strongSelf.encryptionBridge downloadAndDecryptFileAtPath:remotePath completion:^(NSURL *fileURL, NSError *error) {
+			NSLog(@"Downloaded: %@", [fileURL path]);
 		}];
-		[decryptOperation setOperationCompleteBlock:^{
-			__strong typeof(weakDecryptOperation) strongDecryptOperation = weakDecryptOperation;
-			NSLog(@"%@", [strongDecryptOperation.decryptedFileURL path]);
-		}];
-		
-		[self.operationQueue addOperation:encryptOperation];
-		[self.operationQueue addOperation:decryptOperation];
-	}
-	
+	}];
 	return YES;
 }
 

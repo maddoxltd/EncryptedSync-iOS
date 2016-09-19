@@ -1,3 +1,6 @@
 [submodule "Vendor/KeybasePGP"]
 	path = Vendor/KeybasePGP
 	url = git@github.com:keybase/kbpgp.git
+[submodule "Vendor/AWS"]
+	path = Vendor/AWS
+	url = git@github.com:aws/aws-sdk-ios.git

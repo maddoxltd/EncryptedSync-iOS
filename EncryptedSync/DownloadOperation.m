@@ -7,6 +7,7 @@
 //
 
 #import "DownloadOperation.h"
+#import <AWSS3/AWSS3.h>
 
 @implementation DownloadOperation
 
@@ -14,19 +15,25 @@
 {
 	[super start];
 	
+	NSString *localFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:[[NSUUID UUID] UUIDString]];
+	
+	AWSS3TransferManager *transferManager = [AWSS3TransferManager defaultS3TransferManager];
+	AWSS3TransferManagerDownloadRequest *downloadRequest = [[AWSS3TransferManagerDownloadRequest alloc] init];
+	downloadRequest.bucket = [self bucket];
+	downloadRequest.key = self.remotePath;
+	downloadRequest.downloadingFileURL = [NSURL fileURLWithPath:localFilePath];
+	
 	__weak typeof(self) weakSelf = self;
-	NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-	NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
-	[[session dataTaskWithRequest:self.request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+	[[transferManager download:downloadRequest] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
 		__strong typeof(weakSelf) strongSelf = weakSelf;
-		if (!error){
-			NSURL *fileURL = [strongSelf generateTemporaryFileURL];
-			if ([data writeToURL:fileURL atomically:YES]){
-				strongSelf.downloadedFileURL = fileURL;
-			}
+		strongSelf.error = task.error;
+		if (!strongSelf.error){
+			strongSelf.fileURL = [NSURL fileURLWithPath:localFilePath];
 		}
 		[strongSelf finish];
-	}] resume];
+		
+		return nil;
+	}];
 }
 
 @end

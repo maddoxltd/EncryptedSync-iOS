@@ -4,18 +4,25 @@
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "DF8BB472363371F7E205BF24F2C011E3FC992352" : 0,
     "544D7F51AAD52C75B8FCF54E6A41F1F20F67F82C" : 0,
-    "DF8BB472363371F7E205BF24F2C011E3FC992352" : 0
+    "1E6BA78A8A7DE1E4F49E2C6B6512CB8FE8E8ABC3" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "F22A739D-C9A0-4E0E-83B0-D2746662D6B0",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "DF8BB472363371F7E205BF24F2C011E3FC992352" : "EncryptedSync\/Vendor\/KeybasePGP\/",
     "544D7F51AAD52C75B8FCF54E6A41F1F20F67F82C" : "EncryptedSync\/",
-    "DF8BB472363371F7E205BF24F2C011E3FC992352" : "EncryptedSync\/Vendor\/KeybasePGP\/"
+    "1E6BA78A8A7DE1E4F49E2C6B6512CB8FE8E8ABC3" : "EncryptedSync\/Vendor\/AWS\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "EncryptedSync",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
   "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "EncryptedSync.xcodeproj",
   "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:aws\/aws-sdk-ios.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "1E6BA78A8A7DE1E4F49E2C6B6512CB8FE8E8ABC3"
+    },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:simonmaddox\/EncryptedSync-iOS.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
