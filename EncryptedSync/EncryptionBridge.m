@@ -18,6 +18,8 @@
 #import "ListOperation.h"
 #import "DecryptMetadataOperation.h"
 
+#import "File.h"
+
 @interface EncryptionBridge ()
 
 @property (nonatomic, strong) NSOperationQueue *queue;
@@ -103,7 +105,12 @@
 	[self.queue addOperation:decryptOperation];
 }
 
-- (void)downloadAndDecryptMetadataFileAtPath:(NSString *)path completion:(void (^)(NSString *filename, NSError *error))completion
+- (void)downloadAndDecryptFile:(File *)file completion:(void (^)(NSURL *fileURL, NSError *error))completion
+{
+	return [self downloadAndDecryptFileAtPath:file.key completion:completion];
+}
+
+- (void)downloadAndDecryptMetadataFileAtPath:(NSString *)path completion:(void (^)(File *file, NSError *error))completion
 {
 	DownloadOperation *downloadOperation = [[DownloadOperation alloc] init];
 	downloadOperation.remotePath = path;
@@ -123,14 +130,19 @@
 	
 	[decryptOperation setOperationCompleteBlock:^{
 		__strong typeof(weakDecryptOperation) strongDecryptOperation = weakDecryptOperation;
-		completion(strongDecryptOperation.filename, nil);
+		
+		File *file = [[File alloc] init];
+		file.filename = strongDecryptOperation.filename;
+		file.key = [[path lastPathComponent] stringByReplacingOccurrencesOfString:@"." withString:@""];
+		
+		completion(file, nil);
 	}];
 	
 	[self.queue addOperation:downloadOperation];
 	[self.queue addOperation:decryptOperation];
 }
 
-- (void)listFilesWithCompletion:(void (^)(NSArray <NSString *> *files, NSError *error))completion
+- (void)listFilesWithCompletion:(void (^)(NSArray <File *> *files, NSError *error))completion
 {
 	ListOperation *listOperation = [[ListOperation alloc] init];
 	listOperation.encryptionBridge = self;

@@ -14,6 +14,7 @@
 
 @property (nonatomic, copy) NSString *filename;
 @property (nonatomic, copy) NSData *data;
+@property (nonatomic, copy) NSString *key;
 
 - (NSString *)stringRepresentation;
 

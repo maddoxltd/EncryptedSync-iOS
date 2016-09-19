@@ -8,11 +8,11 @@
 
 #import "NetworkOperation.h"
 
-@class EncryptionBridge;
+@class EncryptionBridge, File;
 
 @interface ListOperation : NetworkOperation
 
-@property (nonatomic, copy) NSArray <NSString *>* files;
+@property (nonatomic, copy) NSArray <File *>* files;
 @property (nonatomic, weak) EncryptionBridge *encryptionBridge;
 
 @end

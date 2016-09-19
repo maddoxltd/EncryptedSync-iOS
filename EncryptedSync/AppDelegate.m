@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "EncryptionBridge.h"
+#import "File.h"
 
 @interface AppDelegate ()
 
@@ -31,8 +32,12 @@
 		}];
 	}];*/
 	
-	[self.encryptionBridge listFilesWithCompletion:^(NSArray<NSString *> *files, NSError *error) {
-		NSLog(@"Files: %@", files);
+	__weak typeof(self) weakSelf = self;
+	[self.encryptionBridge listFilesWithCompletion:^(NSArray<File *> *files, NSError *error) {
+		__strong typeof(weakSelf) strongSelf = weakSelf;
+		[strongSelf.encryptionBridge downloadAndDecryptFile:[files firstObject] completion:^(NSURL *fileURL, NSError *error) {
+			NSLog(@"Downloaded: %@", [fileURL path]);
+		}];
 	}];
 	return YES;
 }

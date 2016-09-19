@@ -12,6 +12,8 @@
 #import <AWSS3/AWSS3.h>
 #import <AWSS3/AWSS3Model.h>
 
+#import "File.h"
+
 @implementation ListOperation
 
 - (void)start
@@ -26,7 +28,7 @@
 	listRequest.prefix = @".";
 	[[awsClient listObjects:listRequest] continueWithBlock:^id _Nullable(AWSTask<AWSS3ListObjectsOutput *> * _Nonnull task) {
 		
-		NSMutableArray <NSString *> *decryptedFileNames = [NSMutableArray array];
+		NSMutableArray <File *> *files = [NSMutableArray array];
 		
 		dispatch_group_t group = dispatch_group_create();
 		
@@ -34,9 +36,9 @@
 		[s3Objects enumerateObjectsUsingBlock:^(AWSS3Object * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 			dispatch_group_enter(group);
 			__strong typeof(weakSelf) strongSelf = weakSelf;
-			[strongSelf.encryptionBridge downloadAndDecryptMetadataFileAtPath:obj.key completion:^(NSString *filename, NSError *error) {
-				if (filename){
-					[decryptedFileNames addObject:filename];
+			[strongSelf.encryptionBridge downloadAndDecryptMetadataFileAtPath:obj.key completion:^(File *file, NSError *error) {
+				if (file){
+					[files addObject:file];
 				}
 				dispatch_group_leave(group);
 			}];
@@ -45,7 +47,9 @@
 		dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
 		
 		__strong typeof(weakSelf) strongSelf = weakSelf;
-		strongSelf.files = [decryptedFileNames sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+		strongSelf.files = [files sortedArrayUsingComparator:^NSComparisonResult(File *obj1, File *obj2) {
+			return [obj1.filename compare:obj2.filename];
+		}];
 		[strongSelf finish];
 		
 		return nil;
