@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		F42AA52E1D8C0C6900D34BF7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F42AA52D1D8C0C6900D34BF7 /* main.m */; };
 		F42AA5311D8C0C6900D34BF7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F42AA5301D8C0C6900D34BF7 /* AppDelegate.m */; };
-		F42AA5341D8C0C6900D34BF7 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F42AA5331D8C0C6900D34BF7 /* ViewController.m */; };
 		F42AA5371D8C0C6900D34BF7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F42AA5351D8C0C6900D34BF7 /* Main.storyboard */; };
 		F42AA5391D8C0C6900D34BF7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F42AA5381D8C0C6900D34BF7 /* Assets.xcassets */; };
 		F42AA53C1D8C0C6900D34BF7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F42AA53A1D8C0C6900D34BF7 /* LaunchScreen.storyboard */; };
@@ -34,6 +33,7 @@
 		F42AA6411D90021400D34BF7 /* EncryptionBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = F42AA6401D90021400D34BF7 /* EncryptionBridge.m */; };
 		F42AA6441D90109F00D34BF7 /* ListOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F42AA6431D90109F00D34BF7 /* ListOperation.m */; };
 		F42AA6471D90235B00D34BF7 /* DecryptMetadataOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F42AA6461D90235B00D34BF7 /* DecryptMetadataOperation.m */; };
+		F42AA64B1D903D6A00D34BF7 /* FilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F42AA64A1D903D6A00D34BF7 /* FilesViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -487,8 +487,6 @@
 		F42AA52D1D8C0C6900D34BF7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F42AA52F1D8C0C6900D34BF7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		F42AA5301D8C0C6900D34BF7 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		F42AA5321D8C0C6900D34BF7 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		F42AA5331D8C0C6900D34BF7 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		F42AA5361D8C0C6900D34BF7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F42AA5381D8C0C6900D34BF7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F42AA53B1D8C0C6900D34BF7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -520,6 +518,8 @@
 		F42AA6431D90109F00D34BF7 /* ListOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListOperation.m; sourceTree = "<group>"; };
 		F42AA6451D90235B00D34BF7 /* DecryptMetadataOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecryptMetadataOperation.h; sourceTree = "<group>"; };
 		F42AA6461D90235B00D34BF7 /* DecryptMetadataOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DecryptMetadataOperation.m; sourceTree = "<group>"; };
+		F42AA6491D903D6A00D34BF7 /* FilesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilesViewController.h; sourceTree = "<group>"; };
+		F42AA64A1D903D6A00D34BF7 /* FilesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilesViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -556,18 +556,13 @@
 		F42AA52B1D8C0C6900D34BF7 /* EncryptedSync */ = {
 			isa = PBXGroup;
 			children = (
+				F42AA6481D903D3B00D34BF7 /* Encryption */,
 				F42AA63E1D9001CA00D34BF7 /* Operations */,
 				F42AA5651D8D58D400D34BF7 /* Vendor */,
 				F42AA52F1D8C0C6900D34BF7 /* AppDelegate.h */,
 				F42AA5301D8C0C6900D34BF7 /* AppDelegate.m */,
-				F42AA5321D8C0C6900D34BF7 /* ViewController.h */,
-				F42AA5331D8C0C6900D34BF7 /* ViewController.m */,
-				F42AA63F1D90021400D34BF7 /* EncryptionBridge.h */,
-				F42AA6401D90021400D34BF7 /* EncryptionBridge.m */,
-				F42AA54F1D8C47FE00D34BF7 /* Encryption.h */,
-				F42AA5501D8C47FE00D34BF7 /* Encryption.m */,
-				F42AA5521D8C4CE200D34BF7 /* File.h */,
-				F42AA5531D8C4CE200D34BF7 /* File.m */,
+				F42AA6491D903D6A00D34BF7 /* FilesViewController.h */,
+				F42AA64A1D903D6A00D34BF7 /* FilesViewController.m */,
 				F42AA5351D8C0C6900D34BF7 /* Main.storyboard */,
 				F42AA5381D8C0C6900D34BF7 /* Assets.xcassets */,
 				F42AA53A1D8C0C6900D34BF7 /* LaunchScreen.storyboard */,
@@ -699,6 +694,19 @@
 				F42AA6431D90109F00D34BF7 /* ListOperation.m */,
 			);
 			name = Operations;
+			sourceTree = "<group>";
+		};
+		F42AA6481D903D3B00D34BF7 /* Encryption */ = {
+			isa = PBXGroup;
+			children = (
+				F42AA63F1D90021400D34BF7 /* EncryptionBridge.h */,
+				F42AA6401D90021400D34BF7 /* EncryptionBridge.m */,
+				F42AA54F1D8C47FE00D34BF7 /* Encryption.h */,
+				F42AA5501D8C47FE00D34BF7 /* Encryption.m */,
+				F42AA5521D8C4CE200D34BF7 /* File.h */,
+				F42AA5531D8C4CE200D34BF7 /* File.m */,
+			);
+			name = Encryption;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1201,9 +1209,9 @@
 				F42AA6441D90109F00D34BF7 /* ListOperation.m in Sources */,
 				F42AA5591D8D4D5B00D34BF7 /* AsynchronousOperation.m in Sources */,
 				F42AA6411D90021400D34BF7 /* EncryptionBridge.m in Sources */,
-				F42AA5341D8C0C6900D34BF7 /* ViewController.m in Sources */,
 				F42AA5311D8C0C6900D34BF7 /* AppDelegate.m in Sources */,
 				F42AA55C1D8D4EB400D34BF7 /* EncryptOperation.m in Sources */,
+				F42AA64B1D903D6A00D34BF7 /* FilesViewController.m in Sources */,
 				F42AA5511D8C47FE00D34BF7 /* Encryption.m in Sources */,
 				F42AA5641D8D550800D34BF7 /* DownloadOperation.m in Sources */,
 				F42AA52E1D8C0C6900D34BF7 /* main.m in Sources */,

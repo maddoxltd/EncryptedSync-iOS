@@ -15,7 +15,7 @@
 {
 	[super start];
 	
-	NSString *localFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:[[NSUUID UUID] UUIDString]];
+	NSString *localFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:self.remotePath];
 	
 	AWSS3TransferManager *transferManager = [AWSS3TransferManager defaultS3TransferManager];
 	AWSS3TransferManagerDownloadRequest *downloadRequest = [[AWSS3TransferManagerDownloadRequest alloc] init];

@@ -20,25 +20,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-	self.encryptionBridge = [[EncryptionBridge alloc] init];
-	
-	/*__weak typeof(self) weakSelf = self;
-	[self.encryptionBridge encryptAndUploadFile:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"ClockFace" ofType:@"png"]] completion:^(NSString *remotePath, NSError *error) {
-		NSLog(@"Uploaded: %@", remotePath);
-		
-		__strong typeof(weakSelf) strongSelf = weakSelf;
-		[strongSelf.encryptionBridge downloadAndDecryptFileAtPath:remotePath completion:^(NSURL *fileURL, NSError *error) {
-			NSLog(@"Downloaded: %@", [fileURL path]);
-		}];
-	}];*/
-	
-	__weak typeof(self) weakSelf = self;
-	[self.encryptionBridge listFilesWithCompletion:^(NSArray<File *> *files, NSError *error) {
-		__strong typeof(weakSelf) strongSelf = weakSelf;
-		[strongSelf.encryptionBridge downloadAndDecryptFile:[files firstObject] completion:^(NSURL *fileURL, NSError *error) {
-			NSLog(@"Downloaded: %@", [fileURL path]);
-		}];
-	}];
 	return YES;
 }
 
