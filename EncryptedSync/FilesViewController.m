@@ -10,7 +10,7 @@
 #import "EncryptionBridge.h"
 #import "File.h"
 
-@interface FilesViewController () <UIDocumentInteractionControllerDelegate>
+@interface FilesViewController () <UIDocumentInteractionControllerDelegate, UIDocumentMenuDelegate, UIDocumentPickerDelegate>
 @property (nonatomic, strong) NSArray *files;
 @property (nonatomic, strong) EncryptionBridge *encryptionBridge;
 @end
@@ -36,6 +36,32 @@
 			strongSelf.files = files;
 			[strongSelf.tableView reloadData];
 			[strongSelf.refreshControl endRefreshing];
+		});
+	}];
+}
+
+#pragma mark - Adding Files from a UIDocumentPicker
+
+- (IBAction)addFile:(id)sender
+{
+	UIDocumentMenuViewController *documentMenuViewController = [[UIDocumentMenuViewController alloc] initWithDocumentTypes:@[] inMode:UIDocumentPickerModeImport];
+	documentMenuViewController.delegate = self;
+	[self.navigationController presentViewController:documentMenuViewController animated:YES completion:nil];
+}
+
+- (void)documentMenu:(UIDocumentMenuViewController *)documentMenu didPickDocumentPicker:(UIDocumentPickerViewController *)documentPicker
+{
+	documentPicker.delegate = self;
+	[self.navigationController presentViewController:documentPicker animated:YES completion:nil];
+}
+
+- (void)documentPicker:(UIDocumentPickerViewController *)controller didPickDocumentAtURL:(NSURL *)url
+{
+	__weak typeof(self) weakSelf = self;
+	[self.encryptionBridge encryptAndUploadFile:url completion:^(NSString *remotePath, NSError *error) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			__strong typeof(weakSelf) strongSelf = weakSelf;
+			[strongSelf refreshFiles:nil];
 		});
 	}];
 }

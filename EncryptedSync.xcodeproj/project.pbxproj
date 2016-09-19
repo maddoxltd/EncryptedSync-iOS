@@ -520,6 +520,7 @@
 		F42AA6461D90235B00D34BF7 /* DecryptMetadataOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DecryptMetadataOperation.m; sourceTree = "<group>"; };
 		F42AA6491D903D6A00D34BF7 /* FilesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilesViewController.h; sourceTree = "<group>"; };
 		F42AA64A1D903D6A00D34BF7 /* FilesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilesViewController.m; sourceTree = "<group>"; };
+		F42AA64C1D90432300D34BF7 /* EncryptedSync.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = EncryptedSync.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -556,6 +557,7 @@
 		F42AA52B1D8C0C6900D34BF7 /* EncryptedSync */ = {
 			isa = PBXGroup;
 			children = (
+				F42AA64C1D90432300D34BF7 /* EncryptedSync.entitlements */,
 				F42AA6481D903D3B00D34BF7 /* Encryption */,
 				F42AA63E1D9001CA00D34BF7 /* Operations */,
 				F42AA5651D8D58D400D34BF7 /* Vendor */,
@@ -744,6 +746,12 @@
 				TargetAttributes = {
 					F42AA5281D8C0C6900D34BF7 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 7BA6M6T665;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -1344,6 +1352,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = EncryptedSync/EncryptedSync.entitlements;
 				INFOPLIST_FILE = EncryptedSync/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.maddox.EncryptedSync;
@@ -1355,6 +1364,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = EncryptedSync/EncryptedSync.entitlements;
 				INFOPLIST_FILE = EncryptedSync/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.maddox.EncryptedSync;
@@ -1381,6 +1391,7 @@
 				F42AA5421D8C0C6900D34BF7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

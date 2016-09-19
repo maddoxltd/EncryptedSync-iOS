@@ -37,7 +37,13 @@
                             <outlet property="delegate" destination="DaV-lJ-isE" id="WGT-Ja-Ar0"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Encrypted Sync" id="yNS-Et-UF1"/>
+                    <navigationItem key="navigationItem" title="Encrypted Sync" id="yNS-Et-UF1">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Exl-Y4-nIa">
+                            <connections>
+                                <action selector="addFile:" destination="DaV-lJ-isE" id="XaK-UP-Qb0"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="Xot-4Q-e5T">
                         <autoresizingMask key="autoresizingMask"/>
                         <connections>
