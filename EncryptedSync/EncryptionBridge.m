@@ -42,7 +42,7 @@
 		self.keychain = [A0SimpleKeychain keychain];
 		
 		[self.keychain setUseAccessControl:YES];
-		[self.keychain setDefaultAccessiblity:A0SimpleKeychainItemAccessibleWhenPasscodeSetThisDeviceOnly];
+		[self.keychain setDefaultAccessiblity:A0SimpleKeychainItemAccessibleWhenPasscodeSetThisDeviceOnly]; // TODO: If TouchID is not set up, keychain access will never succeed
 		NSString *privateKey = [self.keychain stringForKey:@"PrivateKey" promptMessage:@"Access your private key"];
 		NSString *passphrase = nil;
 		
