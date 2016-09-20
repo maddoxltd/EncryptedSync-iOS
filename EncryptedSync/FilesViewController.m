@@ -24,8 +24,24 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	self.files = [NSArray array];
+	self.files = nil;
 	self.temporaryFiles = [NSMutableArray array];
+	
+	NSData *savedFilesData = [[NSUserDefaults standardUserDefaults] dataForKey:@"SavedFiles"];
+	if (savedFilesData){
+		NSArray *savedFiles = [NSKeyedUnarchiver unarchiveObjectWithData:savedFilesData];
+		if (savedFiles){
+			NSMutableArray *files = [NSMutableArray array];
+			for (NSString *f in savedFiles){
+				File *file = [[File alloc] init];
+				file.filename = f;
+				file.status = @"Loading...";
+				[files addObject:file];
+			}
+			[self.temporaryFiles addObjectsFromArray:files];
+			[self.tableView reloadData];
+		}
+	}
 	
 	__weak typeof(self) weakSelf = self;
 	dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -86,10 +102,16 @@
 	[self.encryptionBridge listFilesWithCompletion:^(NSArray<File *> *files, NSError *error) {
 		dispatch_async(dispatch_get_main_queue(), ^{
 			__strong typeof(weakSelf) strongSelf = weakSelf;
+			if (strongSelf.files == nil){
+				[strongSelf.temporaryFiles removeAllObjects];
+			}
 			strongSelf.files = files;
 			[strongSelf.tableView reloadData];
 			[strongSelf.refreshControl endRefreshing];
 		});
+		
+		NSArray *filenames = [files valueForKeyPath:@"filename"];
+		[[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:filenames] forKey:@"SavedFiles"];
 	}];
 }
 

@@ -172,9 +172,14 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Srw-ib-HVG" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Files" image="FilesTabBarIcon" id="xrb-d3-8QO"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="jLH-cV-ZUV">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="jLH-cV-ZUV">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -375,9 +380,14 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="202-0T-ZNU" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Settings" image="SettingsTabBarIcon" id="Pai-O3-AeF"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Jb8-Jy-P4p">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Jb8-Jy-P4p">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
