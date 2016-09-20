@@ -4,3 +4,6 @@
 [submodule "Vendor/AWS"]
 	path = Vendor/AWS
 	url = git@github.com:aws/aws-sdk-ios.git
+[submodule "Vendor/SimpleKeychain"]
+	path = Vendor/SimpleKeychain
+	url = git@github.com:auth0/SimpleKeychain.git

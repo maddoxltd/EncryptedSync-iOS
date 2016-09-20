@@ -20,21 +20,49 @@
 
 #import "File.h"
 
+#import <SimpleKeychain/A0SimpleKeychain.h>
+
+@import UIKit;
+
 @interface EncryptionBridge ()
 
 @property (nonatomic, strong) NSOperationQueue *queue;
 @property (nonatomic, strong) Encryption *encryption;
+@property (nonatomic, strong) A0SimpleKeychain *keychain;
 
 @end
 
 @implementation EncryptionBridge
 
-- (instancetype)init
+- (instancetype)initWithPassphraseCallback:(NSString * (^)())passphraseCallback
 {
 	if (self = [super init]){
 		NSError *error = nil;
+		
+		self.keychain = [A0SimpleKeychain keychain];
+		
+		[self.keychain setUseAccessControl:YES];
+		[self.keychain setDefaultAccessiblity:A0SimpleKeychainItemAccessibleWhenPasscodeSetThisDeviceOnly];
+		NSString *privateKey = [self.keychain stringForKey:@"PrivateKey" promptMessage:@"Access your private key"];
+		NSString *passphrase = nil;
+		
+		if (privateKey == nil || [privateKey length] == 0){
+			if (passphraseCallback){
+				passphrase = passphraseCallback();
+				[self.keychain setString:passphrase forKey:@"Passphrase"];
+			}
+		} else {
+			passphrase = [self.keychain stringForKey:@"Passphrase" promptMessage:@"Passphrase"];
+		}
+		
 		// TODO: Private key needs to be stored securely
-		self.encryption = [[Encryption alloc] initWithPrivateKey:[[NSUserDefaults standardUserDefaults] objectForKey:@"private"] passphrase:@"hello" error:&error];
+		NSString *createdPrivateKey = nil;
+		self.encryption = [[Encryption alloc] initWithPrivateKey:privateKey passphrase:passphrase error:&error createdPrivateKey:&createdPrivateKey];
+		
+		if (createdPrivateKey){
+			[self.keychain setString:createdPrivateKey forKey:@"PrivateKey"];
+		}
+		
 		if (error){
 			NSLog(@"Error setting up encryption: %@", error);
 		}

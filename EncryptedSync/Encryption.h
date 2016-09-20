@@ -10,7 +10,7 @@
 
 @interface Encryption : NSObject
 
-- (instancetype)initWithPrivateKey:(NSString *)privateKey passphrase:(NSString *)passphrase error:(NSError **)errorRef;
+- (instancetype)initWithPrivateKey:(NSString *)privateKey passphrase:(NSString *)passphrase error:(NSError **)errorRef createdPrivateKey:(NSString **)createdPrivateKey;
 
 - (void)encryptFile:(NSURL *)fileURL completion:(void (^)(NSURL *encryptedURL, NSURL *metadataURL))completion;
 - (void)decryptFile:(NSURL *)fileURL completion:(void (^)(NSURL *decryptedURL))completion;

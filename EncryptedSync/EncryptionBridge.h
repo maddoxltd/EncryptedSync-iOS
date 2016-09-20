@@ -12,6 +12,8 @@
 
 @interface EncryptionBridge : NSObject
 
+- (instancetype)initWithPassphraseCallback:(NSString * (^)())passphraseCallback;
+
 - (void)encryptAndUploadFile:(NSURL *)fileURL encryptionCompleteHandler:(void (^)())encryptionComplete completion:(void (^)(NSString *remotePath, NSError *error))completion;
 - (void)downloadAndDecryptFileAtPath:(NSString *)path downloadCompleteHandler:(void (^)())downloadComplete completion:(void (^)(NSURL *fileURL, NSError *error))completion;
 - (void)downloadAndDecryptFile:(File *)file downloadCompleteHandler:(void (^)())downloadComplete completion:(void (^)(NSURL *fileURL, NSError *error))completion;

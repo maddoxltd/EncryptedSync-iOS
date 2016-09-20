@@ -38,6 +38,8 @@
 		F4D1C5031D9167EF00D859D3 /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4D1C5021D9167EF00D859D3 /* InfoViewController.m */; };
 		F4D1C5071D91701F00D859D3 /* FileSharing.m in Sources */ = {isa = PBXBuildFile; fileRef = F4D1C5061D91701F00D859D3 /* FileSharing.m */; };
 		F4D1C5091D91705100D859D3 /* MultipeerConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D1C5081D91705100D859D3 /* MultipeerConnectivity.framework */; };
+		F4D1C51D1D917CFE00D859D3 /* SimpleKeychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D1C5141D917CF200D859D3 /* SimpleKeychain.framework */; };
+		F4D1C51E1D917CFE00D859D3 /* SimpleKeychain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F4D1C5141D917CF200D859D3 /* SimpleKeychain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -468,6 +470,48 @@
 			remoteGlobalIDString = CE9DEABC1C6A7FDF0060793F;
 			remoteInfo = AWSCognito;
 		};
+		F4D1C5131D917CF200D859D3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4D1C50B1D917CF200D859D3 /* SimpleKeychain.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5FEEB99C1B7BD70A00501415;
+			remoteInfo = "SimpleKeychain-iOS";
+		};
+		F4D1C5151D917CF200D859D3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4D1C50B1D917CF200D859D3 /* SimpleKeychain.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5FEEB9BD1B7BD82800501415;
+			remoteInfo = "SimpleKeychain-OSX";
+		};
+		F4D1C5171D917CF200D859D3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4D1C50B1D917CF200D859D3 /* SimpleKeychain.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5F7B45AC1B7D0CE700D5AC89;
+			remoteInfo = SimpleKeychainApp;
+		};
+		F4D1C5191D917CF200D859D3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4D1C50B1D917CF200D859D3 /* SimpleKeychain.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5F4D277B1BCE99DF003C27B3;
+			remoteInfo = "SimpleKeychainTests-iOS";
+		};
+		F4D1C51B1D917CF200D859D3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4D1C50B1D917CF200D859D3 /* SimpleKeychain.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5F4D278F1BCEA69E003C27B3;
+			remoteInfo = "SimpleKeychainTests-OSX";
+		};
+		F4D1C51F1D917CFE00D859D3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4D1C50B1D917CF200D859D3 /* SimpleKeychain.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 5FEEB99B1B7BD70A00501415;
+			remoteInfo = "SimpleKeychain-iOS";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -479,6 +523,7 @@
 			files = (
 				F42AA6251D8D590300D34BF7 /* AWSCognito.framework in Embed Frameworks */,
 				F42AA6211D8D58FE00D34BF7 /* AWSS3.framework in Embed Frameworks */,
+				F4D1C51E1D917CFE00D859D3 /* SimpleKeychain.framework in Embed Frameworks */,
 				F42AA61C1D8D58FA00D34BF7 /* AWSCore.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -531,6 +576,7 @@
 		F4D1C5051D91701F00D859D3 /* FileSharing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileSharing.h; sourceTree = "<group>"; };
 		F4D1C5061D91701F00D859D3 /* FileSharing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileSharing.m; sourceTree = "<group>"; };
 		F4D1C5081D91705100D859D3 /* MultipeerConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MultipeerConnectivity.framework; path = System/Library/Frameworks/MultipeerConnectivity.framework; sourceTree = SDKROOT; };
+		F4D1C50B1D917CF200D859D3 /* SimpleKeychain.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SimpleKeychain.xcodeproj; path = Vendor/SimpleKeychain/SimpleKeychain.xcodeproj; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -543,6 +589,7 @@
 				F42AA5461D8C0CBB00D34BF7 /* JavaScriptCore.framework in Frameworks */,
 				F42AA61B1D8D58FA00D34BF7 /* AWSCore.framework in Frameworks */,
 				F42AA6241D8D590300D34BF7 /* AWSCognito.framework in Frameworks */,
+				F4D1C51D1D917CFE00D859D3 /* SimpleKeychain.framework in Frameworks */,
 				F42AA6201D8D58FE00D34BF7 /* AWSS3.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -604,6 +651,7 @@
 		F42AA5651D8D58D400D34BF7 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				F4D1C50A1D917CCB00D859D3 /* Keychain */,
 				F42AA5671D8D58E200D34BF7 /* AWS */,
 				F42AA5661D8D58D800D34BF7 /* Keybase PGP */,
 			);
@@ -745,6 +793,26 @@
 			name = Sharing;
 			sourceTree = "<group>";
 		};
+		F4D1C50A1D917CCB00D859D3 /* Keychain */ = {
+			isa = PBXGroup;
+			children = (
+				F4D1C50B1D917CF200D859D3 /* SimpleKeychain.xcodeproj */,
+			);
+			name = Keychain;
+			sourceTree = "<group>";
+		};
+		F4D1C50C1D917CF200D859D3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F4D1C5141D917CF200D859D3 /* SimpleKeychain.framework */,
+				F4D1C5161D917CF200D859D3 /* SimpleKeychain.framework */,
+				F4D1C5181D917CF200D859D3 /* SimpleKeychainApp.app */,
+				F4D1C51A1D917CF200D859D3 /* SimpleKeychainTests-iOS.xctest */,
+				F4D1C51C1D917CF200D859D3 /* SimpleKeychainTests-OSX.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -763,6 +831,7 @@
 				F42AA61E1D8D58FA00D34BF7 /* PBXTargetDependency */,
 				F42AA6231D8D58FE00D34BF7 /* PBXTargetDependency */,
 				F42AA6271D8D590300D34BF7 /* PBXTargetDependency */,
+				F4D1C5201D917CFE00D859D3 /* PBXTargetDependency */,
 			);
 			name = EncryptedSync;
 			productName = EncryptedSync;
@@ -804,6 +873,10 @@
 				{
 					ProductGroup = F42AA5691D8D58E700D34BF7 /* Products */;
 					ProjectRef = F42AA5681D8D58E700D34BF7 /* AWSiOSSDKv2.xcodeproj */;
+				},
+				{
+					ProductGroup = F4D1C50C1D917CF200D859D3 /* Products */;
+					ProjectRef = F4D1C50B1D917CF200D859D3 /* SimpleKeychain.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1220,6 +1293,41 @@
 			remoteRef = F42AA6191D8D58E800D34BF7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		F4D1C5141D917CF200D859D3 /* SimpleKeychain.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SimpleKeychain.framework;
+			remoteRef = F4D1C5131D917CF200D859D3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F4D1C5161D917CF200D859D3 /* SimpleKeychain.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SimpleKeychain.framework;
+			remoteRef = F4D1C5151D917CF200D859D3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F4D1C5181D917CF200D859D3 /* SimpleKeychainApp.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = SimpleKeychainApp.app;
+			remoteRef = F4D1C5171D917CF200D859D3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F4D1C51A1D917CF200D859D3 /* SimpleKeychainTests-iOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "SimpleKeychainTests-iOS.xctest";
+			remoteRef = F4D1C5191D917CF200D859D3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F4D1C51C1D917CF200D859D3 /* SimpleKeychainTests-OSX.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "SimpleKeychainTests-OSX.xctest";
+			remoteRef = F4D1C51B1D917CF200D859D3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1279,6 +1387,11 @@
 			isa = PBXTargetDependency;
 			name = AWSCognito;
 			targetProxy = F42AA6261D8D590300D34BF7 /* PBXContainerItemProxy */;
+		};
+		F4D1C5201D917CFE00D859D3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "SimpleKeychain-iOS";
+			targetProxy = F4D1C51F1D917CFE00D859D3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

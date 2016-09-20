@@ -30,7 +30,45 @@
 	__weak typeof(self) weakSelf = self;
 	dispatch_async(dispatch_get_global_queue(0, 0), ^{
 		__strong typeof(weakSelf) strongSelf = weakSelf;
-		strongSelf.encryptionBridge = [[EncryptionBridge alloc] init];
+		strongSelf.encryptionBridge = [[EncryptionBridge alloc] initWithPassphraseCallback:^NSString *{
+			
+			__block NSString *passphrase = nil;
+			
+			dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+			dispatch_async(dispatch_get_main_queue(), ^{
+				
+				UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Enter a passphrase for your private key" message:@"Remember this - there's no way to retrieve it later!" preferredStyle:UIAlertControllerStyleAlert];
+				[alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+					[textField setSecureTextEntry:YES];
+					[textField setPlaceholder:@"Passphrase"];
+				}];
+				[alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+					[textField setSecureTextEntry:YES];
+					[textField setPlaceholder:@"Passphrase (again)"];
+				}];
+				[alertController addAction:[UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+					
+					NSArray *passphraseValues = [alertController.textFields valueForKeyPath:@"text"];
+					
+					if ([passphraseValues count] == 2 && [[passphraseValues firstObject] isEqual:[passphraseValues lastObject]]){
+						passphrase = [passphraseValues firstObject];
+						dispatch_semaphore_signal(semaphore);
+					} else {
+						NSLog(@"Passphrases not equal");
+					}
+					
+				}]];
+				[alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+					
+				}]];
+				
+				__strong typeof(weakSelf) strongSelf = weakSelf;
+				[strongSelf presentViewController:alertController animated:YES completion:nil];
+
+			});
+			dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+			return passphrase;
+		}];
 		
 		dispatch_async(dispatch_get_main_queue(), ^{
 			__strong typeof(weakSelf) strongSelf = weakSelf;

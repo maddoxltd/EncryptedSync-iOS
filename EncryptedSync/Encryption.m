@@ -25,13 +25,14 @@
 
 @implementation Encryption
 
-- (instancetype)initWithPrivateKey:(NSString *)privateKey passphrase:(NSString *)passphrase error:(NSError **)errorRef
+- (instancetype)initWithPrivateKey:(NSString *)privateKey passphrase:(NSString *)passphrase error:(NSError **)errorRef createdPrivateKey:(NSString **)createdPrivateKey
 {
 	if (self = [super init]){
 		[self setUp];
 		
 		if (!privateKey){
-			privateKey = [self createPrivateKeyWithPassphrase:passphrase error:errorRef];
+			*createdPrivateKey = [self createPrivateKeyWithPassphrase:passphrase error:errorRef];
+			privateKey = *createdPrivateKey;
 		}
 		
 		[self configureWithUserID:nil privateKey:privateKey passphrase:passphrase error:errorRef];
