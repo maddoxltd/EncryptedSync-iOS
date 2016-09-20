@@ -851,6 +851,9 @@
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 7BA6M6T665;
 						SystemCapabilities = {
+							com.apple.DataProtection = {
+								enabled = 1;
+							};
 							com.apple.iCloud = {
 								enabled = 1;
 							};
