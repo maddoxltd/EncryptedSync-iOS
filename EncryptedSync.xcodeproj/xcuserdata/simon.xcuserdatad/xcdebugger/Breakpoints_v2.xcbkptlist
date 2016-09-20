@@ -52,11 +52,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EncryptedSync/EncryptionBridge.m"
-            timestampString = "496069881.724554"
+            timestampString = "496070273.302777"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "-downloadAndDecryptFileAtPath:completion:"
             landmarkType = "7">
          </BreakpointContent>
@@ -84,11 +84,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EncryptedSync/EncryptionBridge.m"
-            timestampString = "496069881.724554"
+            timestampString = "496070273.302777"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "160"
-            endingLineNumber = "160"
+            startingLineNumber = "164"
+            endingLineNumber = "164"
             landmarkName = "-listFilesWithCompletion:"
             landmarkType = "7">
          </BreakpointContent>

@@ -120,6 +120,7 @@
 		
 		File *file = self.files[indexPath.row];
 		cell.textLabel.text = file.filename;
+		cell.detailTextLabel.text = file.status;
 		
 		return cell;
 	}
@@ -130,13 +131,23 @@
 {
 	if (indexPath.section == 1){
 		File *file = self.files[indexPath.row];
+		file.status = @"Downloading...";
+		[self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 		
 		__weak typeof(self) weakSelf = self;
-		[self.encryptionBridge downloadAndDecryptFile:file completion:^(NSURL *fileURL, NSError *error) {
+		[self.encryptionBridge downloadAndDecryptFile:file downloadCompleteHandler:^{
+			dispatch_async(dispatch_get_main_queue(), ^{
+				file.status = @"Decrypting...";
+				__strong typeof(weakSelf) strongSelf = weakSelf;
+				[strongSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+				
+			});
+		} completion:^(NSURL *fileURL, NSError *error) {
 			dispatch_async(dispatch_get_main_queue(), ^{
 				__strong typeof(weakSelf) strongSelf = weakSelf;
-				
+				file.status = nil;
 				[strongSelf.tableView deselectRowAtIndexPath:indexPath animated:YES];
+				[strongSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 				UIDocumentInteractionController *documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:fileURL];
 				documentInteractionController.delegate = strongSelf;
 				[documentInteractionController presentPreviewAnimated:YES];

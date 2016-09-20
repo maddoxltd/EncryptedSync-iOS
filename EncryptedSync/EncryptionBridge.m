@@ -81,7 +81,7 @@
 	[self.queue addOperation:metadataUploadOperation];
 }
 
-- (void)downloadAndDecryptFileAtPath:(NSString *)path completion:(void (^)(NSURL *fileURL, NSError *error))completion
+- (void)downloadAndDecryptFileAtPath:(NSString *)path downloadCompleteHandler:(void (^)())downloadComplete completion:(void (^)(NSURL *fileURL, NSError *error))completion
 {
 	DownloadOperation *downloadOperation = [[DownloadOperation alloc] init];
 	downloadOperation.remotePath = path;
@@ -97,6 +97,10 @@
 		__strong typeof(weakDecryptOperation) strongDecryptOperation = weakDecryptOperation;
 		
 		strongDecryptOperation.fileURL = strongDownloadOperation.fileURL;
+		
+		if (downloadComplete){
+			downloadComplete();
+		}
 	}];
 	
 	[decryptOperation setOperationCompleteBlock:^{
@@ -108,9 +112,9 @@
 	[self.queue addOperation:decryptOperation];
 }
 
-- (void)downloadAndDecryptFile:(File *)file completion:(void (^)(NSURL *fileURL, NSError *error))completion
+- (void)downloadAndDecryptFile:(File *)file downloadCompleteHandler:(void (^)())downloadComplete completion:(void (^)(NSURL *fileURL, NSError *error))completion
 {
-	return [self downloadAndDecryptFileAtPath:file.key completion:completion];
+	return [self downloadAndDecryptFileAtPath:file.key downloadCompleteHandler:downloadComplete completion:completion];
 }
 
 - (void)downloadAndDecryptMetadataFileAtPath:(NSString *)path completion:(void (^)(File *file, NSError *error))completion
