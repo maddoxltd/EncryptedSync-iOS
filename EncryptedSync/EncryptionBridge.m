@@ -46,7 +46,7 @@
 		NSString *privateKey = [self.keychain stringForKey:@"PrivateKey" promptMessage:@"Access your private key"];
 		NSString *passphrase = nil;
 		
-		if (privateKey == nil || [privateKey length] == 0){
+		if (privateKey == nil || [privateKey length] == 0){ // TODO: If the user cancels the TouchID prompt, we ask for a new passphrase. This will overwrite the old key and passphrase!
 			if (passphraseCallback){
 				passphrase = passphraseCallback();
 				[self.keychain setString:passphrase forKey:@"Passphrase"];
@@ -183,16 +183,68 @@
 
 - (void)listFilesWithCompletion:(void (^)(NSArray <File *> *files, NSError *error))completion
 {
+	__block BOOL hasDownloadedFileListAlready = NO;
+	[self fetchSavedFilesWithCompletion:^(NSArray<File *> *files, NSError *error) {
+		if (!hasDownloadedFileListAlready){
+			completion(files, error);
+		}
+	}];
+	
 	ListOperation *listOperation = [[ListOperation alloc] init];
 	listOperation.encryptionBridge = self;
 	
 	__weak typeof(listOperation) weakListOperation = listOperation;
+	__weak typeof(self) weakSelf = self;
 	[listOperation setOperationCompleteBlock:^{
+		hasDownloadedFileListAlready = YES;
 		__strong typeof(weakListOperation) strongListOperation = weakListOperation;
-		completion(strongListOperation.files, nil);
+		__strong typeof(weakSelf) strongSelf = weakSelf;
+		if (strongListOperation.files){
+			completion(strongListOperation.files, nil);
+			
+			NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[strongListOperation.files valueForKeyPath:@"filename"] options:0 error:nil];
+			if (jsonData){
+				NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+				[strongSelf.encryption encryptString:jsonString completion:^(NSString *encryptedString) {
+					[[NSUserDefaults standardUserDefaults] setObject:encryptedString forKey:@"SavedFiles"];
+				}];
+			}
+		} else {
+			[strongSelf fetchSavedFilesWithCompletion:^(NSArray<File *> *files, NSError *error) {
+				completion(files, error); // TODO: Pass back an error here
+			}];
+		}
+		
 	}];
 	
 	[self.queue addOperation:listOperation];
+}
+
+- (void)fetchSavedFilesWithCompletion:(void (^)(NSArray <File *> *files, NSError *error))completion
+{
+	NSString *savedFiles = [[NSUserDefaults standardUserDefaults] objectForKey:@"SavedFiles"];
+	if (savedFiles){
+		[self.encryption decryptString:savedFiles completion:^(NSString *decryptedString) {
+			if (decryptedString){
+				NSData *data = [decryptedString dataUsingEncoding:NSUTF8StringEncoding];
+				NSArray *filenames = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+				if (filenames){
+					NSMutableArray *files = [NSMutableArray array];
+					for (NSString *filename in filenames){
+						File *file = [[File alloc] init]; // TODO: Should we set the status here?
+						file.filename = filename;
+						[files addObject:file];
+					}
+					completion([NSArray arrayWithArray:files], nil);
+					return;
+				}
+			}
+			completion(nil, nil);
+			return;
+		}];
+	} else {
+		completion(nil, nil);
+	}
 }
 
 @end

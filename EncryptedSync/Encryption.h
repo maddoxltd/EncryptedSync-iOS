@@ -16,4 +16,7 @@
 - (void)decryptFile:(NSURL *)fileURL completion:(void (^)(NSURL *decryptedURL))completion;
 - (void)decryptMetadataFile:(NSURL *)fileURL completion:(void (^)(NSString *filename, NSError *error))completion;
 
+- (void)encryptString:(NSString *)string completion:(void (^)(NSString *encryptedString))completion;
+- (void)decryptString:(NSString *)string completion:(void (^)(NSString *decryptedString))completion;
+
 @end

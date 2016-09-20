@@ -248,6 +248,15 @@
 	completion(encryptedFileURL, encryptedMetaDataURL);
 }
 
+- (void)encryptString:(NSString *)string completion:(void (^)(NSString *encryptedString))completion
+{
+	[self.GPG invokeMethod:@"box" withArguments:@[@{@"msg": string, @"sign_with": self.keyManager}, ^(JSValue *error, JSValue *resultString, JSValue *resultBuffer){
+		if (completion){
+			completion([resultString toString]);
+		}
+	}]];
+}
+
 - (void)decryptFile:(NSURL *)fileURL completion:(void (^)(NSURL *decryptedURL))completion
 {
 	if (!fileURL || !self.keyManager){
@@ -303,6 +312,19 @@
 			completion(nil, [NSError errorWithDomain:NSStringFromClass([self class]) code:1 userInfo:@{NSLocalizedDescriptionKey: [error toString]}]);
 		}
 	}]];
+}
+
+- (void)decryptString:(NSString *)string completion:(void (^)(NSString *decryptedString))completion;
+{
+	JSValue *keyRing = [self.GPG[@"keyring"][@"KeyRing"] constructWithArguments:nil];
+	[keyRing invokeMethod:@"add_key_manager" withArguments:@[self.keyManager]];
+
+	[self.GPG invokeMethod:@"unbox" withArguments:@[@{@"keyfetch" : keyRing, @"armored": string}, ^(JSValue *error, JSValue *resultString){
+		if (completion){
+			completion([resultString toString]);
+		}
+	}]];
+
 }
 
 @end
