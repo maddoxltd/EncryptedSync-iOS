@@ -328,7 +328,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="FilesTabBarIcon" width="15" height="15"/>
-        <image name="SettingsTabBarIcon" width="15" height="15"/>
+        <image name="FilesTabBarIcon" width="30" height="30"/>
+        <image name="SettingsTabBarIcon" width="30" height="30"/>
     </resources>
 </document>
