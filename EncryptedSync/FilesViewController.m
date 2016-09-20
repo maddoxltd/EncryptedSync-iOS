@@ -13,6 +13,7 @@
 
 @interface FilesViewController () <UIDocumentInteractionControllerDelegate, UIDocumentMenuDelegate, UIDocumentPickerDelegate>
 @property (nonatomic, strong) NSArray *files;
+@property (nonatomic, strong) NSMutableArray *temporaryFiles;
 @property (nonatomic, strong) EncryptionBridge *encryptionBridge;
 @end
 
@@ -22,6 +23,7 @@
 {
     [super viewDidLoad];
 	self.files = [NSArray array];
+	self.temporaryFiles = [NSMutableArray array];
 	
 	__weak typeof(self) weakSelf = self;
 	dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -67,10 +69,23 @@
 
 - (void)documentPicker:(UIDocumentPickerViewController *)controller didPickDocumentAtURL:(NSURL *)url
 {
+	File *file = [[File alloc] init];
+	file.filename = [url lastPathComponent];
+	file.status = @"Encrypting...";
+	[self.temporaryFiles addObject:file];
+	[self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+	
 	__weak typeof(self) weakSelf = self;
-	[self.encryptionBridge encryptAndUploadFile:url completion:^(NSString *remotePath, NSError *error) {
+	[self.encryptionBridge encryptAndUploadFile:url encryptionCompleteHandler:^{
 		dispatch_async(dispatch_get_main_queue(), ^{
 			__strong typeof(weakSelf) strongSelf = weakSelf;
+			file.status = @"Uploading...";
+			[strongSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+		});
+	} completion:^(NSString *remotePath, NSError *error) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			__strong typeof(weakSelf) strongSelf = weakSelf;
+			[strongSelf.temporaryFiles removeObject:file];
 			[strongSelf refreshFiles:nil];
 		});
 	}];
@@ -79,40 +94,57 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+	if (section == 0){
+		return [self.temporaryFiles count];
+	}
     return [self.files count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-    
-	File *file = self.files[indexPath.row];
-	cell.textLabel.text = file.filename;
+	if (indexPath.section == 0){
+		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UploadingCell" forIndexPath:indexPath];
+		File *file = self.temporaryFiles[indexPath.row];
+		cell.textLabel.text = file.filename;
+		cell.detailTextLabel.text = file.status;
+		
+		return cell;
+	} else {
 	
-    return cell;
+		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+		
+		File *file = self.files[indexPath.row];
+		cell.textLabel.text = file.filename;
+		
+		return cell;
+	}
 }
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	File *file = self.files[indexPath.row];
-	
-	__weak typeof(self) weakSelf = self;
-	[self.encryptionBridge downloadAndDecryptFile:file completion:^(NSURL *fileURL, NSError *error) {
-		dispatch_async(dispatch_get_main_queue(), ^{
-			__strong typeof(weakSelf) strongSelf = weakSelf;
-			
-			[strongSelf.tableView deselectRowAtIndexPath:indexPath animated:YES];
-			UIDocumentInteractionController *documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:fileURL];
-			documentInteractionController.delegate = strongSelf;
-			[documentInteractionController presentPreviewAnimated:YES];
-		});
-	}];
+	if (indexPath.section == 1){
+		File *file = self.files[indexPath.row];
+		
+		__weak typeof(self) weakSelf = self;
+		[self.encryptionBridge downloadAndDecryptFile:file completion:^(NSURL *fileURL, NSError *error) {
+			dispatch_async(dispatch_get_main_queue(), ^{
+				__strong typeof(weakSelf) strongSelf = weakSelf;
+				
+				[strongSelf.tableView deselectRowAtIndexPath:indexPath animated:YES];
+				UIDocumentInteractionController *documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:fileURL];
+				documentInteractionController.delegate = strongSelf;
+				[documentInteractionController presentPreviewAnimated:YES];
+			});
+		}];
+	} else {
+		[tableView deselectRowAtIndexPath:indexPath animated:NO];
+	}
 }
 
 - (UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller

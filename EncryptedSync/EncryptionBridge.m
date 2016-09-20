@@ -43,7 +43,7 @@
 	return self;
 }
 
-- (void)encryptAndUploadFile:(NSURL *)fileURL completion:(void (^)(NSString *remotePath, NSError *error))completion
+- (void)encryptAndUploadFile:(NSURL *)fileURL encryptionCompleteHandler:(void (^)())encryptionComplete completion:(void (^)(NSString *remotePath, NSError *error))completion
 {
 	EncryptOperation *encryptOperation = [[EncryptOperation alloc] init];
 	encryptOperation.encryption = self.encryption;
@@ -65,6 +65,10 @@
 		
 		strongUploadOperation.fileURL = strongEncryptOperation.encryptedFileURL;
 		strongMetadataUploadOperation.fileURL = strongEncryptOperation.encryptedMetadataURL;
+		
+		if (encryptionComplete){
+			encryptionComplete();
+		}
 	}];
 	
 	[uploadOperation setOperationCompleteBlock:^{

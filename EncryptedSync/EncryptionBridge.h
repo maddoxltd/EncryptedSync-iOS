@@ -12,7 +12,7 @@
 
 @interface EncryptionBridge : NSObject
 
-- (void)encryptAndUploadFile:(NSURL *)fileURL completion:(void (^)(NSString *remotePath, NSError *error))completion;
+- (void)encryptAndUploadFile:(NSURL *)fileURL encryptionCompleteHandler:(void (^)())encryptionComplete completion:(void (^)(NSString *remotePath, NSError *error))completion;
 - (void)downloadAndDecryptFileAtPath:(NSString *)path completion:(void (^)(NSURL *fileURL, NSError *error))completion;
 - (void)downloadAndDecryptFile:(File *)file completion:(void (^)(NSURL *fileURL, NSError *error))completion;
 - (void)downloadAndDecryptMetadataFileAtPath:(NSString *)path completion:(void (^)(File *file, NSError *error))completion;
