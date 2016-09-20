@@ -9,6 +9,7 @@
 #import "FilesViewController.h"
 #import "EncryptionBridge.h"
 #import "File.h"
+#import "InfoViewController.h"
 
 @interface FilesViewController () <UIDocumentInteractionControllerDelegate, UIDocumentMenuDelegate, UIDocumentPickerDelegate>
 @property (nonatomic, strong) NSArray *files;
@@ -22,9 +23,18 @@
     [super viewDidLoad];
 	self.files = [NSArray array];
 	
-	self.encryptionBridge = [[EncryptionBridge alloc] init];
+	__weak typeof(self) weakSelf = self;
+	dispatch_async(dispatch_get_global_queue(0, 0), ^{
+		__strong typeof(weakSelf) strongSelf = weakSelf;
+		strongSelf.encryptionBridge = [[EncryptionBridge alloc] init];
+		
+		dispatch_async(dispatch_get_main_queue(), ^{
+			__strong typeof(weakSelf) strongSelf = weakSelf;
+			[strongSelf refreshFiles:nil];
+		});
+	});
 	
-	[self refreshFiles:nil];
+	
 
 }
 - (IBAction)refreshFiles:(id)sender
@@ -44,7 +54,7 @@
 
 - (IBAction)addFile:(id)sender
 {
-	UIDocumentMenuViewController *documentMenuViewController = [[UIDocumentMenuViewController alloc] initWithDocumentTypes:@[] inMode:UIDocumentPickerModeImport];
+	UIDocumentMenuViewController *documentMenuViewController = [[UIDocumentMenuViewController alloc] initWithDocumentTypes:@[@"public.item"] inMode:UIDocumentPickerModeImport];
 	documentMenuViewController.delegate = self;
 	[self.navigationController presentViewController:documentMenuViewController animated:YES completion:nil];
 }
@@ -108,6 +118,15 @@
 - (UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller
 {
 	return self;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+	if ([segue.identifier isEqualToString:@"ShowFileInfo"]){
+		InfoViewController *viewController = (InfoViewController *)segue.destinationViewController;
+		NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+		viewController.file = self.files[indexPath.row];
+	}
 }
 
 @end

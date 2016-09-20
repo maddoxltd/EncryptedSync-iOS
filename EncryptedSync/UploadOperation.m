@@ -34,11 +34,7 @@
 
 - (NSString *)key
 {
-	NSString *prefix = self.prefix;
-	if (!prefix){
-		prefix = @"";
-	}
-	return [prefix stringByAppendingString:[self.fileURL lastPathComponent]];
+	return [self.fileURL lastPathComponent];
 }
 
 @end

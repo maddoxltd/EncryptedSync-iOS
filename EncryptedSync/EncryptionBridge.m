@@ -53,7 +53,6 @@
 	[uploadOperation addDependency:encryptOperation];
 	
 	UploadOperation *metadataUploadOperation = [[UploadOperation alloc] init];
-	metadataUploadOperation.prefix = @".";
 	[metadataUploadOperation addDependency:encryptOperation];
 	
 	__weak typeof(encryptOperation) weakEncryptOperation = encryptOperation;
@@ -131,11 +130,15 @@
 	[decryptOperation setOperationCompleteBlock:^{
 		__strong typeof(weakDecryptOperation) strongDecryptOperation = weakDecryptOperation;
 		
-		File *file = [[File alloc] init];
-		file.filename = strongDecryptOperation.filename;
-		file.key = [[path lastPathComponent] stringByReplacingOccurrencesOfString:@"." withString:@""];
-		
-		completion(file, nil);
+		if (strongDecryptOperation.filename){
+			File *file = [[File alloc] init];
+			file.filename = strongDecryptOperation.filename;
+			file.key = [[path lastPathComponent] stringByReplacingOccurrencesOfString:@"." withString:@""];
+			
+			completion(file, nil);
+		} else {
+			completion(nil, nil);
+		}
 	}];
 	
 	[self.queue addOperation:downloadOperation];

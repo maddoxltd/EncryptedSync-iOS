@@ -34,6 +34,8 @@
 		F42AA6441D90109F00D34BF7 /* ListOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F42AA6431D90109F00D34BF7 /* ListOperation.m */; };
 		F42AA6471D90235B00D34BF7 /* DecryptMetadataOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F42AA6461D90235B00D34BF7 /* DecryptMetadataOperation.m */; };
 		F42AA64B1D903D6A00D34BF7 /* FilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F42AA64A1D903D6A00D34BF7 /* FilesViewController.m */; };
+		F4D1C4C71D91669900D859D3 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D1C4C61D91669900D859D3 /* MobileCoreServices.framework */; };
+		F4D1C5031D9167EF00D859D3 /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4D1C5021D9167EF00D859D3 /* InfoViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -521,6 +523,9 @@
 		F42AA6491D903D6A00D34BF7 /* FilesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilesViewController.h; sourceTree = "<group>"; };
 		F42AA64A1D903D6A00D34BF7 /* FilesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilesViewController.m; sourceTree = "<group>"; };
 		F42AA64C1D90432300D34BF7 /* EncryptedSync.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = EncryptedSync.entitlements; sourceTree = "<group>"; };
+		F4D1C4C61D91669900D859D3 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		F4D1C5011D9167EE00D859D3 /* InfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoViewController.h; sourceTree = "<group>"; };
+		F4D1C5021D9167EF00D859D3 /* InfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -528,6 +533,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4D1C4C71D91669900D859D3 /* MobileCoreServices.framework in Frameworks */,
 				F42AA5461D8C0CBB00D34BF7 /* JavaScriptCore.framework in Frameworks */,
 				F42AA61B1D8D58FA00D34BF7 /* AWSCore.framework in Frameworks */,
 				F42AA6241D8D590300D34BF7 /* AWSCognito.framework in Frameworks */,
@@ -543,6 +549,7 @@
 			children = (
 				F42AA52B1D8C0C6900D34BF7 /* EncryptedSync */,
 				F42AA52A1D8C0C6900D34BF7 /* Products */,
+				F4D1C4C51D91669900D859D3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -565,6 +572,8 @@
 				F42AA5301D8C0C6900D34BF7 /* AppDelegate.m */,
 				F42AA6491D903D6A00D34BF7 /* FilesViewController.h */,
 				F42AA64A1D903D6A00D34BF7 /* FilesViewController.m */,
+				F4D1C5011D9167EE00D859D3 /* InfoViewController.h */,
+				F4D1C5021D9167EF00D859D3 /* InfoViewController.m */,
 				F42AA5351D8C0C6900D34BF7 /* Main.storyboard */,
 				F42AA5381D8C0C6900D34BF7 /* Assets.xcassets */,
 				F42AA53A1D8C0C6900D34BF7 /* LaunchScreen.storyboard */,
@@ -709,6 +718,14 @@
 				F42AA5531D8C4CE200D34BF7 /* File.m */,
 			);
 			name = Encryption;
+			sourceTree = "<group>";
+		};
+		F4D1C4C51D91669900D859D3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F4D1C4C61D91669900D859D3 /* MobileCoreServices.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1217,6 +1234,7 @@
 				F42AA6441D90109F00D34BF7 /* ListOperation.m in Sources */,
 				F42AA5591D8D4D5B00D34BF7 /* AsynchronousOperation.m in Sources */,
 				F42AA6411D90021400D34BF7 /* EncryptionBridge.m in Sources */,
+				F4D1C5031D9167EF00D859D3 /* InfoViewController.m in Sources */,
 				F42AA5311D8C0C6900D34BF7 /* AppDelegate.m in Sources */,
 				F42AA55C1D8D4EB400D34BF7 /* EncryptOperation.m in Sources */,
 				F42AA64B1D903D6A00D34BF7 /* FilesViewController.m in Sources */,
