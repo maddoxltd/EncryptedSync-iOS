@@ -36,6 +36,8 @@
 		F42AA64B1D903D6A00D34BF7 /* FilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F42AA64A1D903D6A00D34BF7 /* FilesViewController.m */; };
 		F4D1C4C71D91669900D859D3 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D1C4C61D91669900D859D3 /* MobileCoreServices.framework */; };
 		F4D1C5031D9167EF00D859D3 /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4D1C5021D9167EF00D859D3 /* InfoViewController.m */; };
+		F4D1C5071D91701F00D859D3 /* FileSharing.m in Sources */ = {isa = PBXBuildFile; fileRef = F4D1C5061D91701F00D859D3 /* FileSharing.m */; };
+		F4D1C5091D91705100D859D3 /* MultipeerConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D1C5081D91705100D859D3 /* MultipeerConnectivity.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -526,6 +528,9 @@
 		F4D1C4C61D91669900D859D3 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		F4D1C5011D9167EE00D859D3 /* InfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoViewController.h; sourceTree = "<group>"; };
 		F4D1C5021D9167EF00D859D3 /* InfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoViewController.m; sourceTree = "<group>"; };
+		F4D1C5051D91701F00D859D3 /* FileSharing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileSharing.h; sourceTree = "<group>"; };
+		F4D1C5061D91701F00D859D3 /* FileSharing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileSharing.m; sourceTree = "<group>"; };
+		F4D1C5081D91705100D859D3 /* MultipeerConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MultipeerConnectivity.framework; path = System/Library/Frameworks/MultipeerConnectivity.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -533,6 +538,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4D1C5091D91705100D859D3 /* MultipeerConnectivity.framework in Frameworks */,
 				F4D1C4C71D91669900D859D3 /* MobileCoreServices.framework in Frameworks */,
 				F42AA5461D8C0CBB00D34BF7 /* JavaScriptCore.framework in Frameworks */,
 				F42AA61B1D8D58FA00D34BF7 /* AWSCore.framework in Frameworks */,
@@ -565,6 +571,7 @@
 			isa = PBXGroup;
 			children = (
 				F42AA64C1D90432300D34BF7 /* EncryptedSync.entitlements */,
+				F4D1C5041D916FE600D859D3 /* Sharing */,
 				F42AA6481D903D3B00D34BF7 /* Encryption */,
 				F42AA63E1D9001CA00D34BF7 /* Operations */,
 				F42AA5651D8D58D400D34BF7 /* Vendor */,
@@ -723,9 +730,19 @@
 		F4D1C4C51D91669900D859D3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F4D1C5081D91705100D859D3 /* MultipeerConnectivity.framework */,
 				F4D1C4C61D91669900D859D3 /* MobileCoreServices.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F4D1C5041D916FE600D859D3 /* Sharing */ = {
+			isa = PBXGroup;
+			children = (
+				F4D1C5051D91701F00D859D3 /* FileSharing.h */,
+				F4D1C5061D91701F00D859D3 /* FileSharing.m */,
+			);
+			name = Sharing;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1230,6 +1247,7 @@
 				F42AA63D1D8FFEA600D34BF7 /* NetworkOperation.m in Sources */,
 				F42AA62A1D8D592100D34BF7 /* UploadOperation.m in Sources */,
 				F42AA5541D8C4CE200D34BF7 /* File.m in Sources */,
+				F4D1C5071D91701F00D859D3 /* FileSharing.m in Sources */,
 				F42AA55F1D8D4F6500D34BF7 /* DecryptOperation.m in Sources */,
 				F42AA6441D90109F00D34BF7 /* ListOperation.m in Sources */,
 				F42AA5591D8D4D5B00D34BF7 /* AsynchronousOperation.m in Sources */,

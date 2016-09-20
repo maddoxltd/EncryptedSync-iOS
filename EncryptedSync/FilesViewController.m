@@ -10,11 +10,13 @@
 #import "EncryptionBridge.h"
 #import "File.h"
 #import "InfoViewController.h"
+#import "FileSharing.h"
 
 @interface FilesViewController () <UIDocumentInteractionControllerDelegate, UIDocumentMenuDelegate, UIDocumentPickerDelegate>
 @property (nonatomic, strong) NSArray *files;
 @property (nonatomic, strong) NSMutableArray *temporaryFiles;
 @property (nonatomic, strong) EncryptionBridge *encryptionBridge;
+@property (nonatomic, strong) FileSharing *fileSharing;
 @end
 
 @implementation FilesViewController
@@ -36,7 +38,8 @@
 		});
 	});
 	
-	
+	self.fileSharing = [[FileSharing alloc] init];
+//	[self.fileSharing listenForSharing];
 
 }
 - (IBAction)refreshFiles:(id)sender
@@ -169,6 +172,7 @@
 		InfoViewController *viewController = (InfoViewController *)segue.destinationViewController;
 		NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
 		viewController.file = self.files[indexPath.row];
+		viewController.fileSharing = self.fileSharing;
 	}
 }
 
