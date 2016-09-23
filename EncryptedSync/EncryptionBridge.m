@@ -41,19 +41,20 @@
 		
 		self.keychain = [A0SimpleKeychain keychain];
 		
-		[self.keychain setUseAccessControl:YES];
-		[self.keychain setDefaultAccessiblity:A0SimpleKeychainItemAccessibleWhenPasscodeSetThisDeviceOnly]; // TODO: If TouchID is not set up, keychain access will never succeed
-		NSString *privateKey = [self.keychain stringForKey:@"PrivateKey" promptMessage:@"Access your private key"];
+		NSString *privateKey = [self.keychain stringForKey:@"PrivateKey"];
 		NSString *passphrase = nil;
 		
-		if (privateKey == nil || [privateKey length] == 0){ // TODO: If the user cancels the TouchID prompt, we ask for a new passphrase. This will overwrite the old key and passphrase!
+		if (privateKey == nil || [privateKey length] == 0){
 			if (passphraseCallback){
 				passphrase = passphraseCallback();
 				[self.keychain setString:passphrase forKey:@"Passphrase"];
 			}
 		} else {
-			passphrase = [self.keychain stringForKey:@"Passphrase" promptMessage:@"Passphrase"];
+			passphrase = [self.keychain stringForKey:@"Passphrase"];
 		}
+		
+		[self.keychain setString:privateKey forKey:@"PrivateKey"];
+		[self.keychain setString:passphrase forKey:@"Passphrase"];
 		
 		// TODO: Private key needs to be stored securely
 		NSString *createdPrivateKey = nil;
