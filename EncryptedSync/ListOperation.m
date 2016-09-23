@@ -20,6 +20,10 @@
 {
 	[super start];
 	
+	if (self.isCancelled){
+		return;
+	}
+	
 	__weak typeof(self) weakSelf = self;
 	
 	AWSS3 *awsClient = [AWSS3 defaultS3];

@@ -10,6 +10,7 @@
 
 @interface NetworkOperation : AsynchronousOperation
 
++ (void)reloadKeys;
 - (NSString *)bucket;
 
 @property (nonatomic, copy) NSURL *fileURL;

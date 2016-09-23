@@ -14,6 +14,10 @@
 - (void)start
 {
 	[super start];
+	
+	if (self.isCancelled){
+		return;
+	}
 
 	AWSS3TransferManager *transferManager = [AWSS3TransferManager defaultS3TransferManager];
 	AWSS3TransferManagerUploadRequest *uploadRequest = [[AWSS3TransferManagerUploadRequest alloc] init];

@@ -15,6 +15,10 @@
 {
 	[super start];
 	
+	if (self.isCancelled){
+		return;
+	}
+	
 	NSString *localFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:self.remotePath];
 	
 	AWSS3TransferManager *transferManager = [AWSS3TransferManager defaultS3TransferManager];
