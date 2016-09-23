@@ -41,11 +41,19 @@
 	return self;
 }
 
++ (BOOL)isConfigured
+{
+	A0SimpleKeychain *keychain = [A0SimpleKeychain keychain];
+
+	NSString *identityPoolID = [keychain stringForKey:@"CognitoID"];
+	NSString *bucket = [keychain stringForKey:@"Bucket"];
+	
+	return identityPoolID.length > 0 && bucket.length > 0;
+}
+
 - (void)start
 {
-	NSString *identityPoolID = [(AWSCognitoCredentialsProvider *)[[[AWSServiceManager defaultServiceManager] defaultServiceConfiguration] credentialsProvider] identityPoolId];
-	
-	if (!self.bucket || self.bucket.length == 0 || identityPoolID == nil || identityPoolID.length == 0){
+	if (![[self class] isConfigured]){
 		[self cancel];
 	}
 	

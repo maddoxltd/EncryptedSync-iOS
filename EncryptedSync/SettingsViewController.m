@@ -58,6 +58,12 @@
 {
 	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
+	UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+	if ([cell isKindOfClass:[SMXTextFieldCell class]]){
+		SMXTextFieldCell *textFieldCell = (SMXTextFieldCell *)cell;
+		[textFieldCell.textField becomeFirstResponder];
+	}
+	
 	if (indexPath.section == 1){
 		if (indexPath.row == 1){
 			self.keychain = [A0SimpleKeychain keychain];
@@ -79,6 +85,25 @@
 	
 	[textField resignFirstResponder];
 	return YES;
+}
+
+- (void)shake
+{
+	[CATransaction begin];
+	[self.cognitoIDField.layer addAnimation:[self makeShakeAnimation] forKey:@"shake"];
+	[self.bucketField.layer addAnimation:[self makeShakeAnimation] forKey:@"shake"];
+	[CATransaction commit];
+}
+
+// From https://github.com/google/macops-keychainminder/blob/master/KeychainMinderGUI/PasswordViewController.m
+- (CAAnimation *)makeShakeAnimation {
+	CAKeyframeAnimation *animation = [CAKeyframeAnimation animation];
+	animation.keyPath = @"position.x";
+	animation.values = @[ @0, @10, @-10, @10, @-10, @10, @0 ];
+	animation.keyTimes = @[ @0, @(1 / 6.0), @(2 / 6.0), @(3 / 6.0), @(4 / 6.0), @(5 / 6.0), @1 ];
+	animation.duration = 0.6;
+	animation.additive = YES;
+	return animation;
 }
 
 @end

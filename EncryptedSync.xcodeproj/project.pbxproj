@@ -37,6 +37,7 @@
 		F4C881251D9535C40089B560 /* ShowPrivateKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C881241D9535C40089B560 /* ShowPrivateKeyViewController.m */; };
 		F4C881651D9535DC0089B560 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C881641D9535DC0089B560 /* SettingsViewController.m */; };
 		F4C881681D953AC20089B560 /* SMXTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C881671D953AC20089B560 /* SMXTextFieldCell.m */; };
+		F4C8816B1D9540710089B560 /* BlockingTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C8816A1D9540710089B560 /* BlockingTabBarController.m */; };
 		F4D1C4C71D91669900D859D3 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D1C4C61D91669900D859D3 /* MobileCoreServices.framework */; };
 		F4D1C5031D9167EF00D859D3 /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4D1C5021D9167EF00D859D3 /* InfoViewController.m */; };
 		F4D1C5071D91701F00D859D3 /* FileSharing.m in Sources */ = {isa = PBXBuildFile; fileRef = F4D1C5061D91701F00D859D3 /* FileSharing.m */; };
@@ -579,6 +580,8 @@
 		F4C881641D9535DC0089B560 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		F4C881661D953AC20089B560 /* SMXTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMXTextFieldCell.h; sourceTree = "<group>"; };
 		F4C881671D953AC20089B560 /* SMXTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMXTextFieldCell.m; sourceTree = "<group>"; };
+		F4C881691D9540710089B560 /* BlockingTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockingTabBarController.h; sourceTree = "<group>"; };
+		F4C8816A1D9540710089B560 /* BlockingTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlockingTabBarController.m; sourceTree = "<group>"; };
 		F4D1C4C61D91669900D859D3 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		F4D1C5011D9167EE00D859D3 /* InfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoViewController.h; sourceTree = "<group>"; };
 		F4D1C5021D9167EF00D859D3 /* InfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoViewController.m; sourceTree = "<group>"; };
@@ -633,6 +636,8 @@
 				F42AA5651D8D58D400D34BF7 /* Vendor */,
 				F42AA52F1D8C0C6900D34BF7 /* AppDelegate.h */,
 				F42AA5301D8C0C6900D34BF7 /* AppDelegate.m */,
+				F4C881691D9540710089B560 /* BlockingTabBarController.h */,
+				F4C8816A1D9540710089B560 /* BlockingTabBarController.m */,
 				F42AA6491D903D6A00D34BF7 /* FilesViewController.h */,
 				F42AA64A1D903D6A00D34BF7 /* FilesViewController.m */,
 				F4D1C5011D9167EE00D859D3 /* InfoViewController.h */,
@@ -1379,6 +1384,7 @@
 				F42AA55F1D8D4F6500D34BF7 /* DecryptOperation.m in Sources */,
 				F42AA6441D90109F00D34BF7 /* ListOperation.m in Sources */,
 				F42AA5591D8D4D5B00D34BF7 /* AsynchronousOperation.m in Sources */,
+				F4C8816B1D9540710089B560 /* BlockingTabBarController.m in Sources */,
 				F42AA6411D90021400D34BF7 /* EncryptionBridge.m in Sources */,
 				F4D1C5031D9167EF00D859D3 /* InfoViewController.m in Sources */,
 				F42AA5311D8C0C6900D34BF7 /* AppDelegate.m in Sources */,

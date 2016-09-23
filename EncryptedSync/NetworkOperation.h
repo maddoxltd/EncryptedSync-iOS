@@ -10,6 +10,8 @@
 
 @interface NetworkOperation : AsynchronousOperation
 
++ (BOOL)isConfigured;
+
 + (void)reloadKeys;
 - (NSString *)bucket;
 

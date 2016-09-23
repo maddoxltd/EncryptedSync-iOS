@@ -1,5 +1,5 @@
 //
-//  SettingsViewController.h
+//  BlockingTabBarController.h
 //  EncryptedSync
 //
 //  Created by Simon Maddox on 23/09/2016.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SettingsViewController : UITableViewController
-
-- (void)shake;
+@interface BlockingTabBarController : UITabBarController
 
 @end
