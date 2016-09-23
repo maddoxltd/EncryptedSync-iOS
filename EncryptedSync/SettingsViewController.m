@@ -69,11 +69,15 @@
 			self.keychain = [A0SimpleKeychain keychain];
 			NSString *privateKey = [self.keychain stringForKey:@"PrivateKey"];
 			[[UIPasteboard generalPasteboard] setString:privateKey];
+		} else if (indexPath.row == 2){
+			[self importPrivateKey:nil];
+		} else if (indexPath.row == 3){
+			[self deletePrivateKey:nil];
 		}
 	}
 }
 
-- (BOOL) textFieldShouldReturn:(UITextField *)textField
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
 	if (textField == self.cognitoIDField){
 		[self.keychain setString:textField.text forKey:@"CognitoID"];
@@ -104,6 +108,35 @@
 	animation.duration = 0.6;
 	animation.additive = YES;
 	return animation;
+}
+
+- (IBAction)importPrivateKey:(id)sender
+{
+	[self showOverwritePrivateKeyAlertWithAction:^(UIAlertAction *action) {
+		NSString *string = [[UIPasteboard generalPasteboard] string];
+		
+		// TODO: Check if string is a valid private key
+//		[self.keychain setString:string forKey:@"PrivateKey"];
+		// TODO: reload
+	}];
+}
+
+- (IBAction)deletePrivateKey:(id)sender
+{
+	[self showOverwritePrivateKeyAlertWithAction:^(UIAlertAction *action) {
+//		[self.keychain deleteEntryForKey:@"PrivateKey"];
+		// TODO: reload
+	}];
+}
+
+- (void)showOverwritePrivateKeyAlertWithAction:(void(^)(UIAlertAction *action))action
+{
+	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Danger!" message:@"You're about to overwrite your private key. Unless you have a backup, all files will be inaccessible." preferredStyle:UIAlertControllerStyleAlert];
+	[alert addAction:[UIAlertAction actionWithTitle:@"Overwrite" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+		
+	}]];
+	[alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+	[self presentViewController:alert animated:YES completion:nil];
 }
 
 @end
