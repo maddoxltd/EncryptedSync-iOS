@@ -103,8 +103,12 @@
 - (void)shake
 {
 	[CATransaction begin];
-	[self.cognitoIDField.layer addAnimation:[self makeShakeAnimation] forKey:@"shake"];
-	[self.bucketField.layer addAnimation:[self makeShakeAnimation] forKey:@"shake"];
+	if (self.cognitoIDField.text.length == 0){
+		[self.cognitoIDField.layer addAnimation:[self makeShakeAnimation] forKey:@"shake"];
+	}
+	if (self.bucketField.text.length == 0){
+		[self.bucketField.layer addAnimation:[self makeShakeAnimation] forKey:@"shake"];
+	}
 	[CATransaction commit];
 }
 

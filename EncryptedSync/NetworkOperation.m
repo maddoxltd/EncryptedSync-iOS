@@ -24,7 +24,7 @@
 + (void)reloadKeys
 {
 	A0SimpleKeychain *keychain = [A0SimpleKeychain keychain];
-		
+	
 	AWSCognitoCredentialsProvider *credentialsProvider = [[AWSCognitoCredentialsProvider alloc] initWithRegionType:AWSRegionEUWest1 identityPoolId:[keychain stringForKey:@"CognitoID"]];
 	AWSServiceConfiguration *configuration = [[AWSServiceConfiguration alloc] initWithRegion:AWSRegionEUWest1 credentialsProvider:credentialsProvider];
 	[[AWSServiceManager defaultServiceManager] setDefaultServiceConfiguration:configuration];
