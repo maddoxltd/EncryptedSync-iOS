@@ -56,7 +56,6 @@
 		[self.keychain setString:privateKey forKey:@"PrivateKey"];
 		[self.keychain setString:passphrase forKey:@"Passphrase"];
 		
-		// TODO: Private key needs to be stored securely
 		NSString *createdPrivateKey = nil;
 		self.encryption = [[Encryption alloc] initWithPrivateKey:privateKey passphrase:passphrase error:&error createdPrivateKey:&createdPrivateKey];
 		
@@ -212,7 +211,7 @@
 			}
 		} else {
 			[strongSelf fetchSavedFilesWithCompletion:^(NSArray<File *> *files, NSError *error) {
-				completion(files, error); // TODO: Pass back an error here
+				completion(files, error);
 			}];
 		}
 		

@@ -26,6 +26,7 @@
 {
 	[super viewDidLoad];
 	self.keychain = [A0SimpleKeychain keychain];
+	[self.keychain deleteEntryForKey:@"CognitoID"];
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -37,6 +38,9 @@
 			SMXTextFieldCell *textFieldCell = (SMXTextFieldCell *)cell;
 			textFieldCell.textField.placeholder = @"Required";
 			textFieldCell.textField.text = [self.keychain stringForKey:@"CognitoID"];
+			textFieldCell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
+			textFieldCell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+			textFieldCell.textField.spellCheckingType = UITextSpellCheckingTypeNo;
 			
 			self.cognitoIDField = textFieldCell.textField;
 			self.cognitoIDField.delegate = self;
@@ -45,6 +49,9 @@
 			SMXTextFieldCell *textFieldCell = (SMXTextFieldCell *)cell;
 			textFieldCell.textField.placeholder = @"Required";
 			textFieldCell.textField.text = [self.keychain stringForKey:@"Bucket"];
+			textFieldCell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
+			textFieldCell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+			textFieldCell.textField.spellCheckingType = UITextSpellCheckingTypeNo;
 			
 			self.bucketField = textFieldCell.textField;
 			self.bucketField.delegate = self;
@@ -68,7 +75,9 @@
 		if (indexPath.row == 1){
 			self.keychain = [A0SimpleKeychain keychain];
 			NSString *privateKey = [self.keychain stringForKey:@"PrivateKey"];
-			[[UIPasteboard generalPasteboard] setString:privateKey];
+			if (privateKey){
+				[[UIPasteboard generalPasteboard] setString:privateKey];
+			}
 		} else if (indexPath.row == 2){
 			[self importPrivateKey:nil];
 		} else if (indexPath.row == 3){
@@ -100,7 +109,8 @@
 }
 
 // From https://github.com/google/macops-keychainminder/blob/master/KeychainMinderGUI/PasswordViewController.m
-- (CAAnimation *)makeShakeAnimation {
+- (CAAnimation *)makeShakeAnimation
+{
 	CAKeyframeAnimation *animation = [CAKeyframeAnimation animation];
 	animation.keyPath = @"position.x";
 	animation.values = @[ @0, @10, @-10, @10, @-10, @10, @0 ];
@@ -114,27 +124,26 @@
 {
 	[self showOverwritePrivateKeyAlertWithAction:^(UIAlertAction *action) {
 		NSString *string = [[UIPasteboard generalPasteboard] string];
-		
-		// TODO: Check if string is a valid private key
-//		[self.keychain setString:string forKey:@"PrivateKey"];
-		// TODO: reload
+		NSLog(@"Setting Private Key: %@", string);
+		if (string){
+			[self.keychain setString:string forKey:@"PrivateKey"];
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"Reload Encryption" object:nil];
+		}
 	}];
 }
 
 - (IBAction)deletePrivateKey:(id)sender
 {
 	[self showOverwritePrivateKeyAlertWithAction:^(UIAlertAction *action) {
-//		[self.keychain deleteEntryForKey:@"PrivateKey"];
-		// TODO: reload
+		[self.keychain deleteEntryForKey:@"PrivateKey"];
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"Reload Encryption" object:nil];
 	}];
 }
 
-- (void)showOverwritePrivateKeyAlertWithAction:(void(^)(UIAlertAction *action))action
+- (void)showOverwritePrivateKeyAlertWithAction:(void(^)(UIAlertAction *action))actionBlock
 {
 	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Danger!" message:@"You're about to overwrite your private key. Unless you have a backup, all files will be inaccessible." preferredStyle:UIAlertControllerStyleAlert];
-	[alert addAction:[UIAlertAction actionWithTitle:@"Overwrite" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-		
-	}]];
+	[alert addAction:[UIAlertAction actionWithTitle:@"Overwrite" style:UIAlertActionStyleDestructive handler:actionBlock]];
 	[alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
 	[self presentViewController:alert animated:YES completion:nil];
 }

@@ -17,6 +17,8 @@
 @property (nonatomic, strong) NSMutableArray *temporaryFiles;
 @property (nonatomic, strong) EncryptionBridge *encryptionBridge;
 @property (nonatomic, strong) FileSharing *fileSharing;
+
+@property (nonatomic, strong) id encryptionReloadObserver;
 @end
 
 @implementation FilesViewController
@@ -29,45 +31,7 @@
 	__weak typeof(self) weakSelf = self;
 	dispatch_async(dispatch_get_global_queue(0, 0), ^{
 		__strong typeof(weakSelf) strongSelf = weakSelf;
-		strongSelf.encryptionBridge = [[EncryptionBridge alloc] initWithPassphraseCallback:^NSString *{
-			
-			__block NSString *passphrase = nil;
-			
-			dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-			dispatch_async(dispatch_get_main_queue(), ^{
-				
-				UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Enter a passphrase for your private key" message:@"Remember this - there's no way to retrieve it later!" preferredStyle:UIAlertControllerStyleAlert];
-				[alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-					[textField setSecureTextEntry:YES];
-					[textField setPlaceholder:@"Passphrase"];
-				}];
-				[alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-					[textField setSecureTextEntry:YES];
-					[textField setPlaceholder:@"Passphrase (again)"];
-				}];
-				[alertController addAction:[UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-					
-					NSArray *passphraseValues = [alertController.textFields valueForKeyPath:@"text"];
-					
-					if ([passphraseValues count] == 2 && [[passphraseValues firstObject] isEqual:[passphraseValues lastObject]]){
-						passphrase = [passphraseValues firstObject];
-						dispatch_semaphore_signal(semaphore);
-					} else {
-						NSLog(@"Passphrases not equal");
-					}
-					
-				}]];
-				[alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-					
-				}]];
-				
-				__strong typeof(weakSelf) strongSelf = weakSelf;
-				[strongSelf presentViewController:alertController animated:YES completion:nil];
-
-			});
-			dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-			return passphrase;
-		}];
+		[strongSelf loadEncryptionBridge];
 		
 		dispatch_async(dispatch_get_main_queue(), ^{
 			__strong typeof(weakSelf) strongSelf = weakSelf;
@@ -75,10 +39,61 @@
 		});
 	});
 	
+	self.encryptionReloadObserver = [[NSNotificationCenter defaultCenter] addObserverForName:@"Reload Encryption" object:nil queue:[[NSOperationQueue alloc] init] usingBlock:^(NSNotification * _Nonnull note) {
+		__strong typeof(weakSelf) strongSelf = weakSelf;
+		strongSelf.encryptionBridge = nil;
+		[strongSelf loadEncryptionBridge];
+	}];
+	
 	self.fileSharing = [[FileSharing alloc] init];
 //	[self.fileSharing listenForSharing];
 
 }
+
+- (void)loadEncryptionBridge
+{
+	__weak typeof(self) weakSelf = self;
+	self.encryptionBridge = [[EncryptionBridge alloc] initWithPassphraseCallback:^NSString *{
+		
+		__block NSString *passphrase = nil;
+		
+		dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+		dispatch_async(dispatch_get_main_queue(), ^{
+			
+			UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Enter a passphrase for your private key" message:@"Remember this - there's no way to retrieve it later!" preferredStyle:UIAlertControllerStyleAlert];
+			[alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+				[textField setSecureTextEntry:YES];
+				[textField setPlaceholder:@"Passphrase"];
+			}];
+			[alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+				[textField setSecureTextEntry:YES];
+				[textField setPlaceholder:@"Passphrase (again)"];
+			}];
+			[alertController addAction:[UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+				
+				NSArray *passphraseValues = [alertController.textFields valueForKeyPath:@"text"];
+				
+				if ([passphraseValues count] == 2 && [[passphraseValues firstObject] isEqual:[passphraseValues lastObject]]){
+					passphrase = [passphraseValues firstObject];
+					dispatch_semaphore_signal(semaphore);
+				} else {
+					NSLog(@"Passphrases not equal");
+				}
+				
+			}]];
+			[alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+				
+			}]];
+			
+			__strong typeof(weakSelf) strongSelf = weakSelf;
+			[strongSelf presentViewController:alertController animated:YES completion:nil];
+			
+		});
+		dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+		return passphrase;
+	}];
+}
+
 - (IBAction)refreshFiles:(id)sender
 {
 	__weak typeof(self) weakSelf = self;
